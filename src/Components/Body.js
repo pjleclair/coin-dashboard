@@ -43,14 +43,16 @@ const Body = () => {
         return(
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr 1fr',
+                gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                border: 'solid 1px black'
             }} key={i}>
-                <div style={{margin: '.5rem', fontWeight:'bold'}}>{i+1} {coin.id} ({coin.symbol}):</div>
-                <div>current price: {coin.current_price}</div>
-                <div>current mcap: {coin.market_cap}</div>
-                <div>24hr price change: {coin.price_change_percentage_24h}</div>
+                <div style={{margin: '.5rem', fontWeight:'bold'}}>{i+1} {coin.id}:</div>
+                <div>{coin.symbol}</div>
+                <div>{coin.current_price}</div>
+                <div>{coin.market_cap}</div>
+                <div>{coin.price_change_percentage_24h}%</div>
             </div>
         )
     })
@@ -59,15 +61,16 @@ const Body = () => {
         return (
             Math.abs(token.price_change_percentage_24h) > 5.0
         )
-    }).map(coin => {
+    }).map((coin,i) => {
         return(
             <div style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
+                border: 'solid 1px black'
             }} key={coin.symbol}>
-                <div style={{margin: '.5rem', fontWeight:'bold'}}>{coin.id}:</div>
+                <div style={{margin: '.5rem', fontWeight:'bold'}}>{i+1} {coin.id}:</div>
                 <div>{coin.symbol}</div>
                 <div>{coin.market_cap}</div>
                 <div>{coin.current_price}</div>
@@ -84,16 +87,27 @@ const Body = () => {
             <h1>Interesting changes:</h1>
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr'
+                gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
+                fontWeight: 'bolder'
             }}>
-                <div>Token</div>
-                <div>Symbol</div>
-                <div>Market Cap</div>
-                <div>Price</div>
-                <div>24h Change</div>
+                <h2>Token</h2>
+                <h2>Symbol</h2>
+                <h2>Market Cap</h2>
+                <h2>Price</h2>
+                <h2>24h Price Change</h2>
             </div>
             {topChangesArray}
             <h1>Top tokens:</h1>
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr'
+            }}>
+                <h2>Token</h2>
+                <h2>Symbol</h2>
+                <h2>Current Price</h2>
+                <h2>Market Cap</h2>
+                <h2>24h Price Change</h2>
+            </div>
             {displayArray}
         </div>
     )
