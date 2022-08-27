@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/coin-dashboard/static/js/main.9da355c8.js",
+    "index.html": "/coin-dashboard/index.html",
+    "main.9da355c8.js.map": "/coin-dashboard/static/js/main.9da355c8.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.9da355c8.js"
+  ]
+}
