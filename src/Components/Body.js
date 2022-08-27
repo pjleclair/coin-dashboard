@@ -63,13 +63,14 @@ const Body = () => {
         return(
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr 3fr',
+                gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
                 justifyContent: 'center',
                 alignItems: 'center'
             }} key={coin.symbol}>
                 <div style={{margin: '.5rem', fontWeight:'bold'}}>{coin.id}:</div>
                 <div>{coin.symbol}</div>
                 <div>{coin.market_cap}</div>
+                <div>{coin.current_price}</div>
                 <div>{coin.price_change_percentage_24h}%</div>
             </div>
         )
@@ -83,11 +84,12 @@ const Body = () => {
             <h1>Interesting changes:</h1>
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr 3fr'
+                gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr'
             }}>
                 <div>Token</div>
                 <div>Symbol</div>
                 <div>Market Cap</div>
+                <div>Price</div>
                 <div>24h Change</div>
             </div>
             {topChangesArray}
