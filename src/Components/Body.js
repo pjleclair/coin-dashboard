@@ -4,6 +4,8 @@ import axios from 'axios'
 const Body = () => {
 
     const [coinList, setCoinList] = React.useState([])
+    const [filterValue, setFilterValue] = React.useState(10.0)
+    const [showSlider, setShowSlider] = React.useState(false)
     //let displayArray
 
 
@@ -22,24 +24,31 @@ const Body = () => {
                 const data = response.data
                 setCoinList(data)
             })
+            .catch(()=>{alert('API retrieval failed')})
         axios
             .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=2&sparkline=false&price_change_percentage=24h%2C7d')
             .then(response => {
                 setCoinList(prevState => prevState.concat(response.data))
             })
+            .catch(()=>{alert('API page 2 retrieval failed')})
         axios
             .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=3&sparkline=false&price_change_percentage=24h%2C7d')
             .then(response => {
                 setCoinList(prevState => prevState.concat(response.data))
             })
+            .catch(()=>{alert('API page 3 retrieval failed')})
         axios
             .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=4&sparkline=false&price_change_percentage=24h%2C7d')
             .then(response => {
                 setCoinList(prevState => prevState.concat(response.data))
             })
+            .catch(()=>{alert('API page 4 retrieval failed')})
     },[])
 
     const displayArray = coinList.map((coin,i) => {
+        const changeVal = coin.price_change_percentage_24h
+        let styles = {color:'green'}
+        if (changeVal < 0) {styles={color:'red'}}
         return(
             <div style={{
                 display: 'grid',
@@ -52,16 +61,19 @@ const Body = () => {
                 <div>{coin.symbol}</div>
                 <div>{coin.current_price}</div>
                 <div>{coin.market_cap}</div>
-                <div>{coin.price_change_percentage_24h}%</div>
+                <div style={styles}>{coin.price_change_percentage_24h}%</div>
             </div>
         )
     })
 
     const topChangesArray = coinList.filter(token => {
         return (
-            Math.abs(token.price_change_percentage_24h) > 5.0
+            Math.abs(token.price_change_percentage_24h) > filterValue
         )
     }).map((coin,i) => {
+        const changeVal = coin.price_change_percentage_24h
+        let styles = {color:'green'}
+        if (changeVal < 0) {styles={color:'red'}}
         return(
             <div style={{
                 display: 'grid',
@@ -69,22 +81,56 @@ const Body = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 border: 'solid 1px black'
-            }} key={coin.symbol}>
+            }} key={coin.id}>
                 <div style={{margin: '.5rem', fontWeight:'bold'}}>{i+1} {coin.id}:</div>
                 <div>{coin.symbol}</div>
                 <div>{coin.market_cap}</div>
                 <div>{coin.current_price}</div>
-                <div>{coin.price_change_percentage_24h}%</div>
+                <div style={styles}>{coin.price_change_percentage_24h}%</div>
             </div>
         )
     })
 
+    const handleClick = (event) => {
+        setShowSlider(prevState => !prevState)
+    }
+
+    const handleChange = (event) => {
+        console.log(event.target.value)
+        setFilterValue(event.target.value)
+    }
+
     return (
         <div style={{
-            border: 'solid black 1px',
             padding: '1rem'
         }}>
-            <h1>Interesting changes:</h1>
+            <h1>Tokens with 24h price change &gt;{filterValue}%:</h1>
+            <div style={{
+                display: 'flex',
+                alignItems: 'center'
+            }}>
+                <button onClick={handleClick} style={{
+                    marginRight:'1rem', 
+                    display: 'inline-block',
+                    outline: '0',
+                    border: '0',
+                    cursor: 'pointer',
+                    backgroundColor: 'lightblue',
+                    borderRadius: '50px',
+                    padding: '8px 16px',
+                    fontSize: '16px',
+                    fontWeight: '700',
+                    color: 'white',
+                    lineHeight: '26px'
+                }}>Adjust Value</button>
+                {showSlider === true ? 
+                    <div>
+                        <input type={'range'} min='1' max='20' value={filterValue} name='filterValue' onChange={handleChange}
+                        ></input>
+                    </div> : 
+                    <div></div>
+                }
+            </div>
             <div style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
