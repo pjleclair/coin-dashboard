@@ -81,7 +81,7 @@ const Body = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 border: 'solid 1px black'
-            }} key={coin.id}>
+            }} key={i}>
                 <div style={{margin: '.5rem', fontWeight:'bold'}}>{i+1} {coin.id}:</div>
                 <div>{coin.symbol}</div>
                 <div>{coin.market_cap}</div>
@@ -143,7 +143,7 @@ const Body = () => {
                 <h2>24h Price Change</h2>
             </div>
             {topChangesArray}
-            <h1>Top tokens:</h1>
+            <h1>Top tokens by MarketCap:</h1>
             <div style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr'

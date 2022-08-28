@@ -1,10 +1,6 @@
-# Getting Started with Create React App
+This project was created by Phillip LeClair (leclair.eth)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
+Adjust the filter value to view a list of the most volatile coins.
 
 ### `npm start`
 
