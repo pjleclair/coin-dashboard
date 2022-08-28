@@ -4,16 +4,12 @@ import axios from 'axios'
 const Body = () => {
 
     const [coinList, setCoinList] = React.useState([])
+    const [coinDataOne, setCoinDataOne] = React.useState([])
+    const [coinDataTwo, setCoinDataTwo] = React.useState([])
+    const [coinDataThree, setCoinDataThree] = React.useState([])
+    const [coinDataFour, setCoinDataFour] = React.useState([])
     const [filterValue, setFilterValue] = React.useState(10.0)
     const [showSlider, setShowSlider] = React.useState(false)
-    //let displayArray
-
-
-    // React.useEffect(() => {
-    //     displayArray = coinList.map(coin => {
-    //         return (<div></div>)
-    //     })
-    // },[coinList])
 
     console.log(coinList)
 
@@ -22,28 +18,35 @@ const Body = () => {
             .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false&price_change_percentage=24h%2C7d')
             .then(response => {
                 const data = response.data
-                setCoinList(data)
+                setCoinDataOne(data)
             })
-            .catch(()=>{alert('API retrieval failed')})
+            .catch(error=>{console.log('API retrieval failed')})
         axios
             .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=2&sparkline=false&price_change_percentage=24h%2C7d')
             .then(response => {
-                setCoinList(prevState => prevState.concat(response.data))
+                const data = response.data
+                setCoinDataTwo(data)
             })
-            .catch(()=>{alert('API page 2 retrieval failed')})
+            .catch(error=>{console.log('API page 2 retrieval failed')})
         axios
             .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=3&sparkline=false&price_change_percentage=24h%2C7d')
             .then(response => {
-                setCoinList(prevState => prevState.concat(response.data))
+                const data = response.data
+                setCoinDataThree(data)
             })
-            .catch(()=>{alert('API page 3 retrieval failed')})
+            .catch(error=>{console.log('API page 3 retrieval failed')})
         axios
             .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=4&sparkline=false&price_change_percentage=24h%2C7d')
             .then(response => {
-                setCoinList(prevState => prevState.concat(response.data))
+                const data = response.data
+                setCoinDataFour(data)
             })
-            .catch(()=>{alert('API page 4 retrieval failed')})
+            .catch(error=>{console.log('API page 4 retrieval failed')})
     },[])
+
+    React.useEffect(()=>{
+        setCoinList(coinDataOne.concat(coinDataTwo).concat(coinDataThree).concat(coinDataFour))
+    },[coinDataOne,coinDataTwo,coinDataThree,coinDataFour])
 
     const displayArray = coinList.map((coin,i) => {
         const changeVal = coin.price_change_percentage_24h
