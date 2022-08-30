@@ -11,7 +11,7 @@ const Body = () => {
     const [filterValue, setFilterValue] = React.useState(10.0)
     const [showSlider, setShowSlider] = React.useState(false)
     const [showCoinData, setShowCoinData] = React.useState(false)
-    const [selectedCoin, setSelectedCoin] = React.useState('bitcoin')
+    const [selectedCoin, setSelectedCoin] = React.useState('ethereum')
     const [selectedCoinInfo, setSelectedCoinInfo] = React.useState({})
 
     console.log(coinList)
@@ -78,16 +78,35 @@ const Body = () => {
         return(
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr .5fr 1fr 1fr 1fr .5fr',
+                gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
                 justifyContent: 'center',
                 alignItems: 'center',
                 border: 'solid 1px black'
             }} key={i}>
-                <div style={{margin: '.5rem', fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/> {coin.id}:</div>
-                <div>{coin.symbol}</div>
-                <div>{coin.current_price}</div>
+                <div style={{display:'flex', alignItems:'center'}}>
+                    <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
+                    <div style={{display:'flex', flexDirection:'column', justifyContent:'center'}}>
+                        <div style={{fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{coin.id}:</div>
+                        <div>{coin.symbol}</div>
+                    </div>
+                </div>
                 <div>{coin.market_cap}</div>
+                <div>{coin.current_price}</div>
                 <div style={styles}>{coin.price_change_percentage_24h}%</div>
+                <button id={coin.id} onClick={getCoinData} style={{
+                        margin:'.3rem', 
+                        display: 'inline-block',
+                        outline: '0',
+                        border: '0',
+                        cursor: 'pointer',
+                        backgroundColor: 'lightblue',
+                        borderRadius: '50px',
+                        padding: '4px 8px',
+                        fontSize: '16px',
+                        fontWeight: '700',
+                        color: 'white',
+                        lineHeight: '26px'
+                    }}>More info</button>
             </div>
         )
     })
@@ -119,7 +138,20 @@ const Body = () => {
                 <div>{coin.market_cap}</div>
                 <div>{coin.current_price}</div>
                 <div style={styles}>{coin.price_change_percentage_24h}%</div>
-                <button id={coin.id} onClick={getCoinData}>More info</button>
+                <button id={coin.id} onClick={getCoinData} style={{
+                        margin:'.3rem', 
+                        display: 'inline-block',
+                        outline: '0',
+                        border: '0',
+                        cursor: 'pointer',
+                        backgroundColor: 'lightblue',
+                        borderRadius: '50px',
+                        padding: '4px 8px',
+                        fontSize: '16px',
+                        fontWeight: '700',
+                        color: 'white',
+                        lineHeight: '26px'
+                    }}>More info</button>
             </div>
         )
     })
@@ -204,7 +236,7 @@ const Body = () => {
                 }}>
                     <h2>Token</h2>
                     <h2>Market Cap</h2>
-                    <h2>Price</h2>
+                    <h2>Current Price</h2>
                     <h2>24h Price Change</h2>
                     <h2>More Info</h2>
                 </div>
@@ -212,12 +244,11 @@ const Body = () => {
                 <h1>Top tokens by MarketCap:</h1>
                 <div style={{
                     display: 'grid',
-                    gridTemplateColumns: '1fr .5fr 1fr 1fr 1fr .5fr'
+                    gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr'
                 }}>
                     <h2>Token</h2>
-                    <h2>Symbol</h2>
-                    <h2>Current Price</h2>
                     <h2>Market Cap</h2>
+                    <h2>Current Price</h2>
                     <h2>24h Price Change</h2>
                     <h2>More Info</h2>
                 </div>
