@@ -11,7 +11,7 @@ const Body = () => {
     const [filterValue, setFilterValue] = React.useState(10.0)
     const [showSlider, setShowSlider] = React.useState(false)
     const [showCoinData, setShowCoinData] = React.useState(false)
-    const [selectedCoin, setSelectedCoin] = React.useState('')
+    const [selectedCoin, setSelectedCoin] = React.useState('bitcoin')
     const [selectedCoinInfo, setSelectedCoinInfo] = React.useState({})
 
     console.log(coinList)
@@ -48,17 +48,18 @@ const Body = () => {
     },[])
 
     React.useEffect(() => {
+        if (selectedCoin !== '') {
         axios
             .get(`https://api.coingecko.com/api/v3/coins/${selectedCoin}`)
             .then (response => {
                 console.log(response.data)
                 setSelectedCoinInfo(response.data)
             })
-            .catch(error=>console.log(error))
+            .catch(error=>console.log(error))}
     },[selectedCoin])
 
     const getCoinData = (event) => {
-        console.log(showCoinData)
+        console.log(event.target.id)
         if (showCoinData === false) {
             setSelectedCoin(event.target.id)
         }
