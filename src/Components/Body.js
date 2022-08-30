@@ -81,7 +81,7 @@ const Body = () => {
                 gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
                 justifyContent: 'center',
                 alignItems: 'center',
-                border: 'solid 1px black'
+                border: 'solid 1px white'
             }} key={i}>
                 <div style={{display:'flex', alignItems:'center'}}>
                     <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
@@ -100,7 +100,7 @@ const Body = () => {
                         border: '0',
                         cursor: 'pointer',
                         backgroundColor: 'lightblue',
-                        borderRadius: '50px',
+                        borderRadius: '20px',
                         padding: '4px 8px',
                         fontSize: '16px',
                         fontWeight: '700',
@@ -126,7 +126,7 @@ const Body = () => {
                 gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
                 justifyContent: 'center',
                 alignItems: 'center',
-                border: 'solid 1px black'
+                border: 'solid 1px white'
             }} key={i}>
                 <div style={{display:'flex', alignItems:'center'}}>
                     <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
@@ -145,7 +145,7 @@ const Body = () => {
                         border: '0',
                         cursor: 'pointer',
                         backgroundColor: 'lightblue',
-                        borderRadius: '50px',
+                        borderRadius: '20px',
                         padding: '4px 8px',
                         fontSize: '16px',
                         fontWeight: '700',
@@ -179,7 +179,8 @@ const Body = () => {
     const CoinData = ({coin}) => {
         // const site = coin.links.homepage[0]
         console.log(coin)
-        // const desc = props.coin.description.en
+        let desc = coin.description.en
+        if (desc === '') {desc = 'No description available.'}
         return (
             <>
                 <div style={{display: 'flex'}}>
@@ -187,7 +188,7 @@ const Body = () => {
                     <a style={{marginLeft: 'auto'}} href={coin.links.homepage[0]}>Website</a>
                 </div>
                 <h1>{coin.name}</h1>
-                <p>{coin.description.en}</p>
+                <p>{desc}</p>
             </>
         )
     }
@@ -202,57 +203,63 @@ const Body = () => {
             /> :
             <>
                 <MarketStats />
-                <h1>Tokens with 24h price change &gt;{filterValue}%:</h1>
                 <div style={{
-                    display: 'flex',
-                    alignItems: 'center'
+                    border:'1px solid white',
+                    borderRadius:'10px',
+                    padding:'.5rem'
                 }}>
-                    <button onClick={handleClick} style={{
-                        marginRight:'1rem', 
-                        display: 'inline-block',
-                        outline: '0',
-                        border: '0',
-                        cursor: 'pointer',
-                        backgroundColor: 'lightblue',
-                        borderRadius: '50px',
-                        padding: '8px 16px',
-                        fontSize: '16px',
-                        fontWeight: '700',
-                        color: 'white',
-                        lineHeight: '26px'
-                    }}>Adjust Filter</button>
-                    {showSlider === true ? 
-                        <div>
-                            <input type={'range'} min='1' max='20' value={filterValue} name='filterValue' onChange={handleChange}
-                            ></input>
-                        </div> : 
-                        <div></div>
-                    }
+                    <h1>Tokens with 24h price change &gt;{filterValue}%:</h1>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}>
+                        <button onClick={handleClick} style={{
+                            marginRight:'1rem', 
+                            display: 'inline-block',
+                            outline: '0',
+                            border: '0',
+                            cursor: 'pointer',
+                            backgroundColor: 'lightblue',
+                            borderRadius: '50px',
+                            padding: '8px 16px',
+                            fontSize: '16px',
+                            fontWeight: '700',
+                            color: 'white',
+                            lineHeight: '26px'
+                        }}>Adjust Filter</button>
+                        {showSlider === true ? 
+                            <div>
+                                <input type={'range'} min='1' max='20' value={filterValue} name='filterValue' onChange={handleChange}
+                                ></input>
+                            </div> : 
+                            <div></div>
+                        }
+                    </div>
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
+                        fontWeight: 'bolder'
+                    }}>
+                        <h2>Token</h2>
+                        <h2>Market Cap</h2>
+                        <h2>Current Price</h2>
+                        <h2>24h Price Change</h2>
+                        <h2>More Info</h2>
+                    </div>
+                    {topChangesArray}
+                    <h1>Top tokens by MarketCap:</h1>
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr'
+                    }}>
+                        <h2>Token</h2>
+                        <h2>Market Cap</h2>
+                        <h2>Current Price</h2>
+                        <h2>24h Price Change</h2>
+                        <h2>More Info</h2>
+                    </div>
+                    {displayArray}
                 </div>
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
-                    fontWeight: 'bolder'
-                }}>
-                    <h2>Token</h2>
-                    <h2>Market Cap</h2>
-                    <h2>Current Price</h2>
-                    <h2>24h Price Change</h2>
-                    <h2>More Info</h2>
-                </div>
-                {topChangesArray}
-                <h1>Top tokens by MarketCap:</h1>
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr'
-                }}>
-                    <h2>Token</h2>
-                    <h2>Market Cap</h2>
-                    <h2>Current Price</h2>
-                    <h2>24h Price Change</h2>
-                    <h2>More Info</h2>
-                </div>
-                {displayArray}
             </>
             }
         </div>
