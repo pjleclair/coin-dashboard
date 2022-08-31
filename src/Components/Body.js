@@ -143,6 +143,7 @@ const Body = () => {
                 <div style={styles}>{coin.price_change_percentage_24h.toFixed(1)}%</div>
                 <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
                         margin:'.3rem', 
+                        width:'2rem',
                         display: 'inline-block',
                         outline: '0',
                         border: '0',
@@ -154,7 +155,7 @@ const Body = () => {
                         fontWeight: '700',
                         color: 'white',
                         lineHeight: '26px'
-                    }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px'}} src={info} /></button>
+                    }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px',display:'flex'}} src={info} /></button>
             </div>
         )
     })
@@ -251,7 +252,7 @@ const Body = () => {
                 }}>Adjust Filter</button>
                 {showSlider === true ? 
                     <div>
-                        <input type={'range'} min='1' max='20' value={filterValue} name='filterValue' onChange={handleChange}
+                        <input type={'range'} min='1' max='20' value={filterValue} name='filterValue' onChange={(event) => handleChange(event)}
                         ></input>
                     </div> : 
                     <div></div>
