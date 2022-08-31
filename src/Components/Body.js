@@ -97,7 +97,8 @@ const Body = () => {
                 <div>{coin.current_price}</div>
                 <div style={styles}>{Number(coin.price_change_percentage_24h).toFixed(1)}%</div>
                 <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
-                        margin:'.3rem', 
+                        margin:'.3rem',
+                        width:'2rem', 
                         display: 'inline-block',
                         outline: '0',
                         border: '0',
@@ -109,7 +110,7 @@ const Body = () => {
                         fontWeight: '700',
                         color: 'white',
                         lineHeight: '26px'
-                    }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px'}} src={info} /></button>
+                    }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px',display:'flex'}} src={info} /></button>
             </div>
         )
     })
@@ -221,7 +222,7 @@ const Body = () => {
                     <h2>Market Cap</h2>
                     <h2>Current Price</h2>
                     <h2>24h Price Change</h2>
-                    <h2>More Info</h2>
+                    <></>
                 </div>
                 {displayArray}
             </>
@@ -267,7 +268,7 @@ const Body = () => {
                 <h2>Market Cap</h2>
                 <h2>Current Price</h2>
                 <h2>24h Price Change</h2>
-                <h2>More Info</h2>
+                <></>
             </div>
             {topChangesArray}
         </div>
