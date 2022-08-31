@@ -16,6 +16,10 @@ const Body = () => {
     const [selectedCoin, setSelectedCoin] = React.useState('ethereum')
     const [selectedCoinInfo, setSelectedCoinInfo] = React.useState({})
     const [displayMode, setDisplayMode] = React.useState('vol')
+    const [ethPrice, setEthPrice] = React.useState(0)
+    const [btcPrice, setBtcPrice] = React.useState(0)
+    const [globalInfo, setGlobalInfo] = React.useState()
+    const [totalMcap, setTotalMcap] = React.useState(0)
 
     console.log(coinList)
 
@@ -61,6 +65,16 @@ const Body = () => {
             .catch(error=>console.log(error))}
     },[selectedCoin])
 
+    React.useEffect(() => {
+        axios
+            .get(`https://api.coingecko.com/api/v3/global/decentralized_finance_defi`)
+            .then (response => {
+                console.log(response.data.data)
+                setGlobalInfo(response.data.data)
+            })
+            .catch(error=>console.log(error))
+    },[])
+
     const getCoinData = (event) => {
         console.log(event)
         if (showCoinData === false) {
@@ -68,6 +82,30 @@ const Body = () => {
         }
         setShowCoinData(prevState => !prevState)
     }
+
+    React.useEffect (()=>{
+        const eth = coinList.find(({id})=>{
+            console.log(id)
+            return id === 'ethereum'
+        })
+        console.log(eth)
+        const btc = coinList.find(({id})=>{
+            console.log(id)
+            return id === 'bitcoin'
+        })
+        if (eth !== undefined){
+        setEthPrice(eth.current_price)
+        setBtcPrice(btc.current_price)}
+    },[coinList])
+
+    React.useEffect (()=>{
+        const sumValues = obj => {
+            return Object.values(obj).reduce((a,b)=>(a+b))
+        }
+        if (globalInfo !== undefined) {
+            setTotalMcap(Number(sumValues(globalInfo.defi_market_cap)).toFixed(2))
+        }
+    },[globalInfo])
 
     React.useEffect(()=>{
         setCoinList(coinDataOne.concat(coinDataTwo).concat(coinDataThree).concat(coinDataFour))
@@ -175,14 +213,29 @@ const Body = () => {
             console.log(event.target)
             setDisplayMode(event.target.id)
         }
+        const ethbtc = ethPrice/btcPrice
         return (
             <>
                 <h1 style={{
                     display: 'flex',
                     justifyContent:'center'
                 }}>Market Stats</h1>
+                <div style={{display:'flex',justifyContent:'center'}}>
+                    <div style={{
+                        display:'flex',
+                        justifyContent:'space-evenly',
+                        flexDirection:'column',
+                        border: 'solid 1px white',
+                        width: 'fit-content',
+                        padding:'1rem',
+                        borderRadius:'10px'
+                    }}>
+                        <div><strong>ETH/BTC:</strong> {ethbtc.toFixed(3)}</div>
+                        <div><strong>Total Crypto Mcap:</strong> {totalMcap.toLocaleString("en-US")}</div>
+                    </div>
+                </div>
                 <div>Change View:</div>
-                <div>
+                <div style={{marginBottom:'1rem'}}>
                     <button onClick={(event)=>changeDisplay(event)} id='vol'>Volatility</button>
                     <button onClick={(event)=>changeDisplay(event)} id='mcap'>Market Cap</button>
                 </div>
@@ -195,6 +248,9 @@ const Body = () => {
         console.log(coin)
         let desc = coin.description.en
         if (desc === '') {desc = 'No description available.'}
+        const categories = coin.categories.map(category=>{
+            return <li>{category}</li>
+        })
         return (
             <>
                 <div style={{display: 'flex',margin:'1rem'}}>
@@ -205,6 +261,9 @@ const Body = () => {
                     <h1>{coin.name}</h1>
                     <img alt='logo' style={{marginLeft:'auto',height:'5rem'}} src={coin.image.large}/>
                 </div>
+                <h3>market cap rank: {coin.market_cap_rank}</h3>
+                <h3>categories:</h3>
+                <ul>{categories}</ul>
                 <p>{desc}</p>
             </>
         )

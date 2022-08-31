@@ -4,7 +4,7 @@ body  {
 }
 
 * {
-    font-family: 'SF Pro Rounded';
+    font-family: 'SF Pro Rounded','Inter', sans-serif;
     color: #FFFFFF;
     background-color: #111827;
 }
