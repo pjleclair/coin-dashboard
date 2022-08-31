@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from 'axios'
+import info from '../info.svg'
+import link from '../link.svg'
 
 const Body = () => {
 
@@ -13,6 +15,7 @@ const Body = () => {
     const [showCoinData, setShowCoinData] = React.useState(false)
     const [selectedCoin, setSelectedCoin] = React.useState('ethereum')
     const [selectedCoinInfo, setSelectedCoinInfo] = React.useState({})
+    const [displayMode, setDisplayMode] = React.useState('vol')
 
     console.log(coinList)
 
@@ -59,7 +62,7 @@ const Body = () => {
     },[selectedCoin])
 
     const getCoinData = (event) => {
-        console.log(event.target.id)
+        console.log(event)
         if (showCoinData === false) {
             setSelectedCoin(event.target.id)
         }
@@ -90,10 +93,10 @@ const Body = () => {
                         <div>{coin.symbol}</div>
                     </div>
                 </div>
-                <div>{coin.market_cap}</div>
+                <div>{coin.market_cap.toLocaleString("en-US")}</div>
                 <div>{coin.current_price}</div>
-                <div style={styles}>{coin.price_change_percentage_24h}%</div>
-                <button id={coin.id} onClick={getCoinData} style={{
+                <div style={styles}>{Number(coin.price_change_percentage_24h).toFixed(1)}%</div>
+                <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
                         margin:'.3rem', 
                         display: 'inline-block',
                         outline: '0',
@@ -101,12 +104,12 @@ const Body = () => {
                         cursor: 'pointer',
                         backgroundColor: 'lightblue',
                         borderRadius: '20px',
-                        padding: '4px 8px',
+                        padding: '2px 4px',
                         fontSize: '16px',
                         fontWeight: '700',
                         color: 'white',
                         lineHeight: '26px'
-                    }}>More info</button>
+                    }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px'}} src={info} /></button>
             </div>
         )
     })
@@ -135,10 +138,10 @@ const Body = () => {
                         <div>{coin.symbol}</div>
                     </div>
                 </div>
-                <div>{coin.market_cap}</div>
+                <div>{coin.market_cap.toLocaleString("en-US")}</div>
                 <div>{coin.current_price}</div>
-                <div style={styles}>{coin.price_change_percentage_24h}%</div>
-                <button id={coin.id} onClick={getCoinData} style={{
+                <div style={styles}>{coin.price_change_percentage_24h.toFixed(1)}%</div>
+                <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
                         margin:'.3rem', 
                         display: 'inline-block',
                         outline: '0',
@@ -146,12 +149,12 @@ const Body = () => {
                         cursor: 'pointer',
                         backgroundColor: 'lightblue',
                         borderRadius: '20px',
-                        padding: '4px 8px',
+                        padding: '2px 4px',
                         fontSize: '16px',
                         fontWeight: '700',
                         color: 'white',
                         lineHeight: '26px'
-                    }}>More info</button>
+                    }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px'}} src={info} /></button>
             </div>
         )
     })
@@ -165,31 +168,108 @@ const Body = () => {
         setFilterValue(event.target.value)
     }
 
-    const MarketStats = () => {
+    const MarketStats = ({setDisplayMode}) => {
+        const changeDisplay = (event) => {
+            console.log(event.target)
+            setDisplayMode(event.target.id)
+        }
         return (
             <>
                 <h1 style={{
                     display: 'flex',
                     justifyContent:'center'
                 }}>Market Stats</h1>
+                <div>Change View:</div>
+                <div>
+                    <button onClick={(event)=>changeDisplay(event)} id='vol'>Volatility</button>
+                    <button onClick={(event)=>changeDisplay(event)} id='mcap'>Market Cap</button>
+                </div>
             </>
         )
     }
 
-    const CoinData = ({coin}) => {
+    const CoinData = ({coin, getCoinData}) => {
         // const site = coin.links.homepage[0]
         console.log(coin)
         let desc = coin.description.en
         if (desc === '') {desc = 'No description available.'}
         return (
             <>
-                <div style={{display: 'flex'}}>
+                <div style={{display: 'flex',margin:'1rem'}}>
                     <button onClick={getCoinData}>Return</button>
-                    <a style={{marginLeft: 'auto'}} href={coin.links.homepage[0]}>Website</a>
+                    <a style={{marginLeft: 'auto'}} href={coin.links.homepage[0]}><img alt='link' src={link} style={{height:'2rem', backgroundColor:'white',borderRadius:'10px'}}/></a>
                 </div>
-                <h1>{coin.name}</h1>
+                <div style={{display:'flex'}}>
+                    <h1>{coin.name}</h1>
+                    <img alt='logo' style={{marginLeft:'auto',height:'5rem'}} src={coin.image.large}/>
+                </div>
                 <p>{desc}</p>
             </>
+        )
+    }
+
+    const TopTokens = ({displayArray, getCoinData}) => {
+        return (
+            <>
+                <h1>Top tokens by MarketCap:</h1>
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr'
+                }}>
+                    <h2>Token</h2>
+                    <h2>Market Cap</h2>
+                    <h2>Current Price</h2>
+                    <h2>24h Price Change</h2>
+                    <h2>More Info</h2>
+                </div>
+                {displayArray}
+            </>
+        )
+    }
+
+    const TopChanges = ({filterValue, topChangesArray, handleChange, handleClick, getCoinData}) => {
+        return (
+        <div>
+            <h1>Tokens with 24h price change &gt;{filterValue}%:</h1>
+            <div style={{
+                display: 'flex',
+                alignItems: 'center'
+            }}>
+                <button onClick={handleClick} style={{
+                    marginRight:'1rem', 
+                    display: 'inline-block',
+                    outline: '0',
+                    border: '0',
+                    cursor: 'pointer',
+                    backgroundColor: 'lightblue',
+                    borderRadius: '50px',
+                    padding: '8px 16px',
+                    fontSize: '16px',
+                    fontWeight: '700',
+                    color: 'white',
+                    lineHeight: '26px'
+                }}>Adjust Filter</button>
+                {showSlider === true ? 
+                    <div>
+                        <input type={'range'} min='1' max='20' value={filterValue} name='filterValue' onChange={handleChange}
+                        ></input>
+                    </div> : 
+                    <div></div>
+                }
+            </div>
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
+                fontWeight: 'bolder'
+            }}>
+                <h2>Token</h2>
+                <h2>Market Cap</h2>
+                <h2>Current Price</h2>
+                <h2>24h Price Change</h2>
+                <h2>More Info</h2>
+            </div>
+            {topChangesArray}
+        </div>
         )
     }
 
@@ -200,65 +280,27 @@ const Body = () => {
             {showCoinData === true ? 
             <CoinData 
                 coin={selectedCoinInfo}
+                getCoinData={getCoinData}
             /> :
             <>
-                <MarketStats />
+                <MarketStats
+                    displayMode={displayMode}
+                    setDisplayMode={setDisplayMode} 
+                />
                 <div style={{
                     border:'1px solid white',
                     borderRadius:'10px',
                     padding:'.5rem'
                 }}>
-                    <h1>Tokens with 24h price change &gt;{filterValue}%:</h1>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center'
-                    }}>
-                        <button onClick={handleClick} style={{
-                            marginRight:'1rem', 
-                            display: 'inline-block',
-                            outline: '0',
-                            border: '0',
-                            cursor: 'pointer',
-                            backgroundColor: 'lightblue',
-                            borderRadius: '50px',
-                            padding: '8px 16px',
-                            fontSize: '16px',
-                            fontWeight: '700',
-                            color: 'white',
-                            lineHeight: '26px'
-                        }}>Adjust Filter</button>
-                        {showSlider === true ? 
-                            <div>
-                                <input type={'range'} min='1' max='20' value={filterValue} name='filterValue' onChange={handleChange}
-                                ></input>
-                            </div> : 
-                            <div></div>
-                        }
-                    </div>
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
-                        fontWeight: 'bolder'
-                    }}>
-                        <h2>Token</h2>
-                        <h2>Market Cap</h2>
-                        <h2>Current Price</h2>
-                        <h2>24h Price Change</h2>
-                        <h2>More Info</h2>
-                    </div>
-                    {topChangesArray}
-                    <h1>Top tokens by MarketCap:</h1>
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr'
-                    }}>
-                        <h2>Token</h2>
-                        <h2>Market Cap</h2>
-                        <h2>Current Price</h2>
-                        <h2>24h Price Change</h2>
-                        <h2>More Info</h2>
-                    </div>
-                    {displayArray}
+                    {displayMode === 'vol' ?
+                    <TopChanges filterValue={filterValue}
+                        topChangesArray={topChangesArray}
+                        handleChange={handleChange}
+                        handleClick={handleClick}
+                    /> :
+                    <TopTokens displayArray={displayArray}
+                        getCoinData={getCoinData}
+                    />}
                 </div>
             </>
             }

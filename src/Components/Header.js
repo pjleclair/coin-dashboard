@@ -13,7 +13,7 @@ const Header = () => {
 
     return (
         <nav style={styles}>
-            <h1>Coin Dashboard</h1>
+            <h1 style={{color:'lightblue'}}>Coin Dashboard</h1>
             <div style={{marginLeft:'auto',color:'white'}}>supported by CoinGecko API</div>
         </nav>
     )

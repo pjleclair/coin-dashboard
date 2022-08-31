@@ -8,7 +8,7 @@ const Footer = () => {
             padding: '.5rem',
             alignSelf: 'center',
             border: 'solid white 1px',
-            borderRadius: '10px 10px 0 0'
+            borderRadius: '10px 10px 10px 10px'
         }}>
             created by leclair.eth
         </div>
