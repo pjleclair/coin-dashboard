@@ -19,6 +19,7 @@ const Body = () => {
     const [ethPrice, setEthPrice] = React.useState(0)
     const [btcPrice, setBtcPrice] = React.useState(0)
     const [globalInfo, setGlobalInfo] = React.useState()
+    const [totalDefiMcap, setTotalDefiMcap] = React.useState(0)
     const [totalMcap, setTotalMcap] = React.useState(0)
 
     console.log(coinList)
@@ -94,8 +95,14 @@ const Body = () => {
             return id === 'bitcoin'
         })
         if (eth !== undefined){
-        setEthPrice(eth.current_price)
-        setBtcPrice(btc.current_price)}
+            setEthPrice(eth.current_price)
+            setBtcPrice(btc.current_price)
+            let sum = 0
+            coinList.forEach(token => {
+                sum += token.market_cap
+            })
+            setTotalMcap(sum)
+        }
     },[coinList])
 
     React.useEffect (()=>{
@@ -103,7 +110,7 @@ const Body = () => {
             return Object.values(obj).reduce((a,b)=>(a+b))
         }
         if (globalInfo !== undefined) {
-            setTotalMcap(Number(sumValues(globalInfo.defi_market_cap)).toFixed(2))
+            setTotalDefiMcap(Number(sumValues(globalInfo.defi_market_cap)))
         }
     },[globalInfo])
 
@@ -230,8 +237,9 @@ const Body = () => {
                         padding:'1rem',
                         borderRadius:'10px'
                     }}>
-                        <div><strong>ETH/BTC:</strong> {ethbtc.toFixed(3)}</div>
-                        <div><strong>Total Crypto Mcap:</strong> {totalMcap.toLocaleString("en-US")}</div>
+                        <div style={{color:'lightblue'}}><strong>ETH/BTC:</strong> {ethbtc.toFixed(3)}</div>
+                        <div style={{color:'lightblue'}}><strong>Total Crypto Mcap:</strong> {totalMcap.toLocaleString("en-US")}</div>
+                        <div style={{color:'lightblue'}}><strong>Total Defi Mcap:</strong> {totalDefiMcap.toLocaleString("en-US")}</div>
                     </div>
                 </div>
                 <div>Change View:</div>
@@ -248,9 +256,10 @@ const Body = () => {
         console.log(coin)
         let desc = coin.description.en
         if (desc === '') {desc = 'No description available.'}
-        const categories = coin.categories.map(category=>{
+        let categories = coin.categories.map(category=>{
             return <li>{category}</li>
         })
+        if (categories.length === 0) {categories = <li>No categories available.</li>}
         return (
             <>
                 <div style={{display: 'flex',margin:'1rem'}}>
