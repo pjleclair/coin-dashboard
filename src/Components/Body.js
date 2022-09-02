@@ -201,6 +201,7 @@ const Body = () => {
         console.log(coin)
         let desc = coin.description.en
         if (desc === '') {desc = 'No description available.'}
+        else {desc = `<p>${desc}</p>`}
         let categories = coin.categories.map(category=>{
             return <li>{category}</li>
         })
@@ -221,7 +222,7 @@ const Body = () => {
                 <h3>market cap rank: {coin.market_cap_rank}</h3>
                 <h3>categories:</h3>
                 <ul>{categories}</ul>
-                <p>{desc}</p>
+                <div dangerouslySetInnerHTML={{__html: desc}}></div>
             </>
         )
     }
@@ -324,7 +325,7 @@ const Body = () => {
                 }}>Adjust Filter</button>
                 {showSlider === true ? 
                     <div>
-                        <input type={'range'} min='1' max='20' step='1' defaultValue={filterValue} name='filterValue' onChange={handleChange}
+                        <input type={'range'} min='1' max='20' step='1' value={filterValue} name='filterValue' onChange={handleChange}
                         ></input>
                     </div> : 
                     <div></div>
