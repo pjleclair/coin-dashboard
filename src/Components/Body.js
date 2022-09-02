@@ -3,7 +3,6 @@ import axios from 'axios'
 import info from '../info.svg'
 import link from '../link.svg'
 import twitter from '../twitter.svg'
-import search from '../search.svg'
 
 const Body = () => {
 
@@ -238,7 +237,6 @@ const Body = () => {
                     display: 'flex',
                     alignItems: 'center'
                 }}>
-                        <img alt='search' src={search} style={{backgroundColor:'white',borderRadius:'10px', width:'1.5rem'}}/>
                         <input type={'search'} placeholder={'search coins...'}></input>
                     </div>
                 </div>
