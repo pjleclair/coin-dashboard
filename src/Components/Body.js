@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import info from '../info.svg'
 import link from '../link.svg'
+import twitter from '../twitter.svg'
 
 const Body = () => {
 
@@ -10,7 +11,6 @@ const Body = () => {
     const [coinDataTwo, setCoinDataTwo] = React.useState([])
     const [coinDataThree, setCoinDataThree] = React.useState([])
     const [coinDataFour, setCoinDataFour] = React.useState([])
-    const [filterValue, setFilterValue] = React.useState(10.0)
     const [showSlider, setShowSlider] = React.useState(false)
     const [showCoinData, setShowCoinData] = React.useState(false)
     const [selectedCoin, setSelectedCoin] = React.useState('ethereum')
@@ -160,61 +160,6 @@ const Body = () => {
         )
     })
 
-    const topChangesArray = coinList.filter(token => {
-        return (
-            Math.abs(token.price_change_percentage_24h) > filterValue
-        )
-    }).map((coin,i) => {
-        const changeVal = coin.price_change_percentage_24h
-        let styles = {color:'green'}
-        if (changeVal < 0) {styles={color:'red'}}
-        const imgSrc = coin.image
-        return(
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
-                justifyContent: 'center',
-                alignItems: 'center',
-                border: 'solid 1px white'
-            }} key={i}>
-                <div style={{display:'flex', alignItems:'center'}}>
-                    <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
-                    <div style={{display:'flex', flexDirection:'column', justifyContent:'center'}}>
-                        <div style={{fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{coin.id}:</div>
-                        <div>{coin.symbol}</div>
-                    </div>
-                </div>
-                <div>{coin.market_cap.toLocaleString("en-US")}</div>
-                <div>{coin.current_price}</div>
-                <div style={styles}>{coin.price_change_percentage_24h.toFixed(1)}%</div>
-                <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
-                        margin:'.3rem', 
-                        width:'2rem',
-                        display: 'inline-block',
-                        outline: '0',
-                        border: '0',
-                        cursor: 'pointer',
-                        backgroundColor: 'lightblue',
-                        borderRadius: '20px',
-                        padding: '2px 4px',
-                        fontSize: '16px',
-                        fontWeight: '700',
-                        color: 'white',
-                        lineHeight: '26px'
-                    }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px',display:'flex'}} src={info} /></button>
-            </div>
-        )
-    })
-
-    const handleClick = (event) => {
-        setShowSlider(prevState => !prevState)
-    }
-
-    const handleChange = (event) => {
-        console.log(event.target.value)
-        setFilterValue(event.target.value)
-    }
-
     const MarketStats = ({setDisplayMode}) => {
         const changeDisplay = (event) => {
             console.log(event.target)
@@ -264,7 +209,10 @@ const Body = () => {
             <>
                 <div style={{display: 'flex',margin:'1rem'}}>
                     <button onClick={getCoinData}>Return</button>
-                    <a style={{marginLeft: 'auto'}} href={coin.links.homepage[0]}><img alt='link' src={link} style={{height:'2rem', backgroundColor:'white',borderRadius:'10px'}}/></a>
+                    <div style={{marginLeft: 'auto'}}>
+                        <a href={coin.links.homepage[0]}><img alt='link' src={link} style={{height:'2rem', backgroundColor:'white',borderRadius:'10px'}}/></a>
+                        <a href={`https://twitter.com/${coin.links.twitter_screen_name}`}><img alt='twitter link' src={twitter} style={{height:'2rem', backgroundColor:'white',borderRadius:'10px'}}/></a>
+                    </div>
                 </div>
                 <div style={{display:'flex'}}>
                     <h1>{coin.name}</h1>
@@ -297,7 +245,62 @@ const Body = () => {
         )
     }
 
-    const TopChanges = ({filterValue, topChangesArray, handleChange, handleClick, getCoinData}) => {
+    const TopChanges = ({getCoinData}) => {
+        const [filterValue, setFilterValue] = React.useState(10.0)
+        const handleClick = (event) => {
+            setShowSlider(prevState => !prevState)
+        }
+        const handleChange = (event) => {
+            console.log(event.target.value)
+            setFilterValue(event.target.value)
+        }
+
+        const topChangesArray = coinList.filter(token => {
+            return (
+                Math.abs(token.price_change_percentage_24h) > filterValue
+            )
+        }).map((coin,i) => {
+            const changeVal = coin.price_change_percentage_24h
+            let styles = {color:'green'}
+            if (changeVal < 0) {styles={color:'red'}}
+            const imgSrc = coin.image
+            return(
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    border: 'solid 1px white'
+                }} key={i}>
+                    <div style={{display:'flex', alignItems:'center'}}>
+                        <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
+                        <div style={{display:'flex', flexDirection:'column', justifyContent:'center'}}>
+                            <div style={{fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{coin.id}:</div>
+                            <div>{coin.symbol}</div>
+                        </div>
+                    </div>
+                    <div>{coin.market_cap.toLocaleString("en-US")}</div>
+                    <div>{coin.current_price}</div>
+                    <div style={styles}>{coin.price_change_percentage_24h.toFixed(1)}%</div>
+                    <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
+                            margin:'.3rem', 
+                            width:'2rem',
+                            display: 'inline-block',
+                            outline: '0',
+                            border: '0',
+                            cursor: 'pointer',
+                            backgroundColor: 'lightblue',
+                            borderRadius: '20px',
+                            padding: '2px 4px',
+                            fontSize: '16px',
+                            fontWeight: '700',
+                            color: 'white',
+                            lineHeight: '26px'
+                        }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px',display:'flex'}} src={info} /></button>
+                </div>
+            )
+        })
+        
         return (
         <div>
             <h1>Tokens with 24h price change &gt;{filterValue}%:</h1>
@@ -321,7 +324,7 @@ const Body = () => {
                 }}>Adjust Filter</button>
                 {showSlider === true ? 
                     <div>
-                        <input type={'range'} min='1' max='20' value={filterValue} name='filterValue' onChange={(event) => handleChange(event)}
+                        <input type={'range'} min='1' max='20' step='1' defaultValue={filterValue} name='filterValue' onChange={handleChange}
                         ></input>
                     </div> : 
                     <div></div>
@@ -363,10 +366,8 @@ const Body = () => {
                     padding:'.5rem'
                 }}>
                     {displayMode === 'vol' ?
-                    <TopChanges filterValue={filterValue}
-                        topChangesArray={topChangesArray}
-                        handleChange={handleChange}
-                        handleClick={handleClick}
+                    <TopChanges
+                        getCoinData={getCoinData}
                     /> :
                     <TopTokens displayArray={displayArray}
                         getCoinData={getCoinData}
