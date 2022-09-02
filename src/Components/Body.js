@@ -233,7 +233,8 @@ const Body = () => {
                 <div style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    marginTop: '1rem'
                 }}>
                     <div>
                         <div>Change View:</div>
@@ -244,9 +245,9 @@ const Body = () => {
                         </div>
                     </div>
                     <div style={{
-                    display: 'flex',
-                    alignItems: 'center'
-                }}>
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}>
                         <input type={'search'} placeholder={'search coins...'}></input>
                     </div>
                 </div>
@@ -322,7 +323,8 @@ const Body = () => {
             return (
                 <div style={{
                     display:'flex',
-                    alignItems:'center'
+                    alignItems:'center',
+                    margin:'.5rem'
                 }} key={coin.item.id}>
                     <div>{coin.item.score + 1}</div>
                     <img alt='logo' src={img} style={{width:'1.5rem'}}/>
