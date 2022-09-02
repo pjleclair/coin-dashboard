@@ -318,7 +318,7 @@ const Body = () => {
     const TrendingChanges = ({trending}) => {
         const displayTrending = trending.map(coin => {
             console.log(coin)
-            const img = coin.item.thumb
+            const img = coin.item.small
             return (
                 <div style={{
                     display:'flex',
