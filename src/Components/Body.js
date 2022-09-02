@@ -3,6 +3,7 @@ import axios from 'axios'
 import info from '../info.svg'
 import link from '../link.svg'
 import twitter from '../twitter.svg'
+import search from '../search.svg'
 
 const Body = () => {
 
@@ -187,10 +188,25 @@ const Body = () => {
                         <div style={{color:'lightblue'}}><strong>Total Defi Mcap:</strong> {totalDefiMcap.toLocaleString("en-US")}</div>
                     </div>
                 </div>
-                <div>Change View:</div>
-                <div style={{marginBottom:'1rem'}}>
-                    <button onClick={(event)=>changeDisplay(event)} id='vol'>Volatility</button>
-                    <button onClick={(event)=>changeDisplay(event)} id='mcap'>Market Cap</button>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}>
+                    <div>
+                        <div>Change View:</div>
+                        <div style={{marginBottom:'1rem'}}>
+                            <button onClick={(event)=>changeDisplay(event)} id='vol'>Volatility</button>
+                            <button onClick={(event)=>changeDisplay(event)} id='mcap'>Market Cap</button>
+                        </div>
+                    </div>
+                    <div style={{
+                    display: 'flex',
+                    alignItems: 'center'
+                }}>
+                        <img alt='search' src={search} style={{backgroundColor:'white',borderRadius:'10px', width:'1.5rem'}}/>
+                        <input type={'search'} placeholder={'search coins...'}></input>
+                    </div>
                 </div>
             </>
         )
