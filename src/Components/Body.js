@@ -124,10 +124,43 @@ const Body = () => {
         let styles = {color:'green'}
         if (changeVal < 0) {styles={color:'red'}}
         const imgSrc = coin.image
-        return(
-            <div style={{
+        let gridItems = <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
+            justifyContent: 'center',
+            alignItems: 'center',
+            border: 'solid 1px white'
+        }} key={i}>
+            <div style={{display:'flex', alignItems:'center'}}>
+                <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
+                <div style={{display:'flex', flexDirection:'column', justifyContent:'center'}}>
+                    <div style={{fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{coin.id}:</div>
+                    <div>{coin.symbol}</div>
+                </div>
+            </div>
+            <div>{coin.market_cap.toLocaleString("en-US")}</div>
+            <div>{coin.current_price}</div>
+            <div style={styles}>{Number(coin.price_change_percentage_24h).toFixed(1)}%</div>
+            <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
+                    margin:'.3rem',
+                    width:'2rem', 
+                    display: 'inline-block',
+                    outline: '0',
+                    border: '0',
+                    cursor: 'pointer',
+                    backgroundColor: 'lightblue',
+                    borderRadius: '20px',
+                    padding: '2px 4px',
+                    fontSize: '16px',
+                    fontWeight: '700',
+                    color: 'white',
+                    lineHeight: '26px'
+                }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px',display:'flex'}} src={info} /></button>
+        </div>
+        if (window.innerWidth < 450) {
+            gridItems = <div style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
+                gridTemplateColumns: '1fr .5fr .5fr',
                 justifyContent: 'center',
                 alignItems: 'center',
                 border: 'solid 1px white'
@@ -139,8 +172,6 @@ const Body = () => {
                         <div>{coin.symbol}</div>
                     </div>
                 </div>
-                <div>{coin.market_cap.toLocaleString("en-US")}</div>
-                <div>{coin.current_price}</div>
                 <div style={styles}>{Number(coin.price_change_percentage_24h).toFixed(1)}%</div>
                 <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
                         margin:'.3rem',
@@ -158,6 +189,9 @@ const Body = () => {
                         lineHeight: '26px'
                     }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px',display:'flex'}} src={info} /></button>
             </div>
+        }
+        return(
+            <div>{gridItems}</div>
         )
     })
 
@@ -219,7 +253,7 @@ const Body = () => {
         if (desc === '') {desc = 'No description available.'}
         else {desc = `<p>${desc}</p>`}
         let categories = coin.categories.map(category=>{
-            return <li>{category}</li>
+            return <li key={category}>{category}</li>
         })
         if (categories.length === 0) {categories = <li>No categories available.</li>}
         return (
@@ -244,19 +278,30 @@ const Body = () => {
     }
 
     const TopTokens = ({displayArray, getCoinData}) => {
+        let columns = <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr'
+        }}>
+            <h2>Token</h2>
+            <h2>Market Cap</h2>
+            <h2>Current Price</h2>
+            <h2>24h Price Change</h2>
+            <></>
+        </div>
+        if (window.innerWidth < 450) {
+            columns = <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr .5fr .5fr'
+            }}>
+                <h2>Token</h2>
+                <h2>24h Price Change</h2>
+                <></>
+            </div>
+        }
         return (
             <>
                 <h1>Top tokens by MarketCap:</h1>
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr'
-                }}>
-                    <h2>Token</h2>
-                    <h2>Market Cap</h2>
-                    <h2>Current Price</h2>
-                    <h2>24h Price Change</h2>
-                    <></>
-                </div>
+                {columns}
                 {displayArray}
             </>
         )
@@ -281,10 +326,43 @@ const Body = () => {
             let styles = {color:'green'}
             if (changeVal < 0) {styles={color:'red'}}
             const imgSrc = coin.image
-            return(
-                <div style={{
+            let gridItems = <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
+                justifyContent: 'center',
+                alignItems: 'center',
+                border: 'solid 1px white'
+            }} key={i}>
+                <div style={{display:'flex', alignItems:'center'}}>
+                    <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
+                    <div style={{display:'flex', flexDirection:'column', justifyContent:'center'}}>
+                        <div style={{fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{coin.id}:</div>
+                        <div>{coin.symbol}</div>
+                    </div>
+                </div>
+                <div>{coin.market_cap.toLocaleString("en-US")}</div>
+                <div>{coin.current_price}</div>
+                <div style={styles}>{coin.price_change_percentage_24h.toFixed(1)}%</div>
+                <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
+                        margin:'.3rem', 
+                        width:'2rem',
+                        display: 'inline-block',
+                        outline: '0',
+                        border: '0',
+                        cursor: 'pointer',
+                        backgroundColor: 'lightblue',
+                        borderRadius: '20px',
+                        padding: '2px 4px',
+                        fontSize: '16px',
+                        fontWeight: '700',
+                        color: 'white',
+                        lineHeight: '26px'
+                    }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px',display:'flex'}} src={info} /></button>
+            </div>
+            if (window.innerWidth < 450) {
+                gridItems = <div style={{
                     display: 'grid',
-                    gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
+                    gridTemplateColumns: '1fr .5fr .5fr',
                     justifyContent: 'center',
                     alignItems: 'center',
                     border: 'solid 1px white'
@@ -296,8 +374,6 @@ const Body = () => {
                             <div>{coin.symbol}</div>
                         </div>
                     </div>
-                    <div>{coin.market_cap.toLocaleString("en-US")}</div>
-                    <div>{coin.current_price}</div>
                     <div style={styles}>{coin.price_change_percentage_24h.toFixed(1)}%</div>
                     <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
                             margin:'.3rem', 
@@ -315,9 +391,33 @@ const Body = () => {
                             lineHeight: '26px'
                         }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px',display:'flex'}} src={info} /></button>
                 </div>
+            }
+            return(
+                <div>{gridItems}</div>
             )
         })
-        
+        let columns = <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
+            fontWeight: 'bolder'
+        }}>
+            <h2>Token</h2>
+            <h2>Market Cap</h2>
+            <h2>Current Price</h2>
+            <h2>24h Price Change</h2>
+            <></>
+        </div>
+        if (window.innerWidth < 450) {
+            columns = <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr .5fr .5fr',
+                fontWeight: 'bolder'
+            }}>
+                <h2>Token</h2>
+                <h2>24h Price Change</h2>
+                <></>
+            </div>
+        }
         return (
         <div>
             <h1>Tokens with 24h price change &gt;{filterValue}%:</h1>
@@ -347,17 +447,7 @@ const Body = () => {
                     <div></div>
                 }
             </div>
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
-                fontWeight: 'bolder'
-            }}>
-                <h2>Token</h2>
-                <h2>Market Cap</h2>
-                <h2>Current Price</h2>
-                <h2>24h Price Change</h2>
-                <></>
-            </div>
+            {columns}
             {topChangesArray}
         </div>
         )
