@@ -21,6 +21,7 @@ const Body = () => {
     const [globalInfo, setGlobalInfo] = React.useState()
     const [totalDefiMcap, setTotalDefiMcap] = React.useState(0)
     const [totalMcap, setTotalMcap] = React.useState(0)
+    const [trending, setTrending] = React.useState([])
 
     console.log(coinList)
 
@@ -76,6 +77,16 @@ const Body = () => {
             .catch(error=>console.log(error))
     },[])
 
+    React.useEffect(() => {
+        axios
+            .get(`https://api.coingecko.com/api/v3/search/trending`)
+            .then (response => {
+                console.log(response.data.coins)
+                setTrending(response.data.coins)
+            })
+            .catch(error=>console.log(error))
+    },[])
+
     const getCoinData = (event) => {
         console.log(event)
         if (showCoinData === false) {
@@ -86,12 +97,10 @@ const Body = () => {
 
     React.useEffect (()=>{
         const eth = coinList.find(({id})=>{
-            console.log(id)
             return id === 'ethereum'
         })
         console.log(eth)
         const btc = coinList.find(({id})=>{
-            console.log(id)
             return id === 'bitcoin'
         })
         if (eth !== undefined){
@@ -129,7 +138,7 @@ const Body = () => {
             justifyContent: 'center',
             alignItems: 'center',
             border: 'solid 1px white'
-        }} key={i}>
+        }}>
             <div style={{display:'flex', alignItems:'center'}}>
                 <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
                 <div style={{display:'flex', flexDirection:'column', justifyContent:'center'}}>
@@ -163,7 +172,7 @@ const Body = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 border: 'solid 1px white'
-            }} key={i}>
+            }}>
                 <div style={{display:'flex', alignItems:'center'}}>
                     <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
                     <div style={{display:'flex', flexDirection:'column', justifyContent:'center'}}>
@@ -190,7 +199,7 @@ const Body = () => {
             </div>
         }
         return(
-            <div>{gridItems}</div>
+            <div key={i}>{gridItems}</div>
         )
     })
 
@@ -231,6 +240,7 @@ const Body = () => {
                         <div style={{marginBottom:'1rem'}}>
                             <button onClick={(event)=>changeDisplay(event)} id='vol'>Volatility</button>
                             <button onClick={(event)=>changeDisplay(event)} id='mcap'>Market Cap</button>
+                            <button onClick={(event)=>changeDisplay(event)} id='trend'>Trending</button>
                         </div>
                     </div>
                     <div style={{
@@ -297,11 +307,38 @@ const Body = () => {
             </div>
         }
         return (
-            <>
+            <div>
                 <h1>Top tokens by MarketCap:</h1>
                 {columns}
                 {displayArray}
-            </>
+            </div>
+        )
+    }
+
+    const TrendingChanges = ({trending}) => {
+        const displayTrending = trending.map(coin => {
+            console.log(coin)
+            const img = coin.item.thumb
+            return (
+                <div style={{
+                    display:'flex',
+                    alignItems:'center'
+                }} key={coin.item.id}>
+                    <div>{coin.item.score + 1}</div>
+                    <img alt='logo' src={img} style={{width:'1.5rem'}}/>
+                    {coin.item.name}
+                </div>
+            )
+        })
+        return (
+            <div>
+                <h1>Trending</h1>
+                <div style={{
+                    display: 'grid'
+                }}>
+                    {displayTrending}
+                </div>
+            </div>
         )
     }
 
@@ -391,7 +428,7 @@ const Body = () => {
                 </div>
             }
             return(
-                <div>{gridItems}</div>
+                <div key={i}>{gridItems}</div>
             )
         })
         let columns = <div style={{
@@ -450,7 +487,20 @@ const Body = () => {
         </div>
         )
     }
-
+    let toDisplay
+    if (displayMode === 'vol') {
+        toDisplay = <TopChanges
+            getCoinData={getCoinData}
+        />
+    } else if (displayMode === 'trend') {
+        toDisplay = <TrendingChanges 
+            trending={trending} 
+        />
+    } else {
+        toDisplay = <TopTokens displayArray={displayArray}
+            getCoinData={getCoinData}
+        />
+    }
     return (
         <div style={{
             padding: '1rem'
@@ -470,13 +520,7 @@ const Body = () => {
                     borderRadius:'10px',
                     padding:'.5rem'
                 }}>
-                    {displayMode === 'vol' ?
-                    <TopChanges
-                        getCoinData={getCoinData}
-                    /> :
-                    <TopTokens displayArray={displayArray}
-                        getCoinData={getCoinData}
-                    />}
+                    {toDisplay}
                 </div>
             </>
             }
