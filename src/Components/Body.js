@@ -280,7 +280,7 @@ const Body = () => {
             <div>
                 <div style={{marginLeft:'1rem'}}>
                     <h3>market data:</h3>
-                    <div style={{display:'flex',alignItems:'center'}}>current price: <div style={{marginLeft:'.5rem'}}>{price.toLocaleString("en-US")}</div></div>
+                    <div style={{display:'flex',alignItems:'center'}}>current price: <div style={{marginLeft:'.5rem'}}>${price.toLocaleString("en-US")}</div></div>
                     <div style={{display:'flex',alignItems:'center'}}>24h price change: <div style={priceStyle}>{priceChange.toFixed(2)}%</div></div>
                 </div>
             </div>
@@ -301,7 +301,7 @@ const Body = () => {
                     <div>market cap: {marketData.market_cap.usd.toLocaleString("en-US")}</div>
                     <div style={{display:'flex',alignItems:'center'}}>fully diluted value: <div style={fdvStyle}>{fdv.toLocaleString("en-US")}</div></div>
                     <br />
-                    <div style={{display:'flex',alignItems:'center'}}>current price: <div style={{marginLeft:'.5rem'}}>{price.toLocaleString("en-US")}</div></div>
+                    <div style={{display:'flex',alignItems:'center'}}>current price: <div style={{marginLeft:'.5rem'}}>${price.toLocaleString("en-US")}</div></div>
                     <div style={{display:'flex',alignItems:'center'}}>24h price change: <div style={priceStyle}>{priceChange.toFixed(2)}%</div></div>
                 </div>
             </div>
