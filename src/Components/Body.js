@@ -292,6 +292,7 @@ const Body = () => {
                 </div>
             </div>
         </div>
+        let categoryStyle = {marginLeft:'1rem'}
         if (window.innerWidth < 450) {
             displayData = <div>
                 <h3>market cap rank: {coin.market_cap_rank}</h3>
@@ -304,6 +305,7 @@ const Body = () => {
                     <div style={{display:'flex',alignItems:'center'}}>24h price change: <div style={priceStyle}>{priceChange.toFixed(2)}%</div></div>
                 </div>
             </div>
+            categoryStyle = {marginLeft:''}
         }
         return (
             <>
@@ -318,10 +320,18 @@ const Body = () => {
                     <h1>{coin.name}</h1>
                     <img alt='logo' style={{marginLeft:'auto',height:'5rem'}} src={coin.image.large}/>
                 </div>
-                <div>{displayData}</div>
-                <h3>categories:</h3>
-                <ul>{categories}</ul>
-                <div dangerouslySetInnerHTML={{__html: desc}}></div>
+                <div>
+                    <div>{displayData}</div>
+                    <div style={categoryStyle}>
+                        <h3>categories:</h3>
+                        <ul>{categories}</ul>
+                    </div>
+                </div>
+                <div dangerouslySetInnerHTML={{__html: desc}} style={{
+                    border:'1px solid white',
+                    borderRadius:'10px',
+                    padding:'.5rem'
+                }}></div>
             </>
         )
     }
