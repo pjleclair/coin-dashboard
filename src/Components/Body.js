@@ -148,7 +148,7 @@ const Body = () => {
             </div>
             <div>{coin.market_cap.toLocaleString("en-US")}</div>
             <div>{coin.current_price}</div>
-            <div style={styles}>{Number(coin.price_change_percentage_24h).toFixed(1)}%</div>
+            <div style={styles}>{Number(coin.price_change_percentage_24h).toFixed(2)}%</div>
             <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
                     margin:'.3rem',
                     width:'2rem', 
@@ -180,7 +180,7 @@ const Body = () => {
                         <div>{coin.symbol}</div>
                     </div>
                 </div>
-                <div style={styles}>{Number(coin.price_change_percentage_24h).toFixed(1)}%</div>
+                <div style={styles}>{Number(coin.price_change_percentage_24h).toFixed(2)}%</div>
                 <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
                         margin:'.3rem',
                         width:'2rem', 
@@ -265,6 +265,46 @@ const Body = () => {
             return <li key={category}>{category}</li>
         })
         if (categories.length === 0) {categories = <li>No categories available.</li>}
+        let marketData = coin.market_data
+        let priceChange = marketData.price_change_percentage_24h
+        let priceStyle = {color:'green',marginLeft:'.5rem'}
+        if (priceChange < 0) {priceStyle = {color:'red', marginLeft:'.5rem'}}
+        let fdv = marketData.fully_diluted_valuation.usd
+        let fdvStyle = {marginLeft:'.5rem'}
+        if (fdv === undefined) {
+            fdv = 'no data available'
+            fdvStyle={color:'grey',marginLeft:'.5rem'}
+        }
+        let price = marketData.current_price.usd
+        let displayData = <div style={{display:'grid',gridTemplateColumns:'1fr 1fr'}}>
+            <div>
+                <div style={{marginLeft:'1rem'}}>
+                    <h3>market data:</h3>
+                    <div style={{display:'flex',alignItems:'center'}}>current price: <div style={{marginLeft:'.5rem'}}>{price.toLocaleString("en-US")}</div></div>
+                    <div style={{display:'flex',alignItems:'center'}}>24h price change: <div style={priceStyle}>{priceChange.toFixed(2)}%</div></div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <h3>market cap rank: {coin.market_cap_rank}</h3>
+                    <div>market cap: {marketData.market_cap.usd.toLocaleString("en-US")}</div>
+                    <div style={{display:'flex',alignItems:'center'}}>fully diluted value: <div style={fdvStyle}>{fdv.toLocaleString("en-US")}</div></div>    
+                </div>
+            </div>
+        </div>
+        if (window.innerWidth < 450) {
+            displayData = <div>
+                <h3>market cap rank: {coin.market_cap_rank}</h3>
+                <h3>market data:</h3>
+                <div style={{marginLeft:'1rem'}}>
+                    <div>market cap: {marketData.market_cap.usd.toLocaleString("en-US")}</div>
+                    <div style={{display:'flex',alignItems:'center'}}>fully diluted value: <div style={fdvStyle}>{fdv.toLocaleString("en-US")}</div></div>
+                    <br />
+                    <div style={{display:'flex',alignItems:'center'}}>current price: <div style={{marginLeft:'.5rem'}}>{price.toLocaleString("en-US")}</div></div>
+                    <div style={{display:'flex',alignItems:'center'}}>24h price change: <div style={priceStyle}>{priceChange.toFixed(2)}%</div></div>
+                </div>
+            </div>
+        }
         return (
             <>
                 <div style={{display: 'flex',margin:'1rem'}}>
@@ -278,7 +318,7 @@ const Body = () => {
                     <h1>{coin.name}</h1>
                     <img alt='logo' style={{marginLeft:'auto',height:'5rem'}} src={coin.image.large}/>
                 </div>
-                <h3>market cap rank: {coin.market_cap_rank}</h3>
+                <div>{displayData}</div>
                 <h3>categories:</h3>
                 <ul>{categories}</ul>
                 <div dangerouslySetInnerHTML={{__html: desc}}></div>
@@ -379,7 +419,7 @@ const Body = () => {
                 </div>
                 <div>{coin.market_cap.toLocaleString("en-US")}</div>
                 <div>{coin.current_price}</div>
-                <div style={styles}>{coin.price_change_percentage_24h.toFixed(1)}%</div>
+                <div style={styles}>{coin.price_change_percentage_24h.toFixed(2)}%</div>
                 <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
                         margin:'.3rem', 
                         width:'2rem',
@@ -411,7 +451,7 @@ const Body = () => {
                             <div>{coin.symbol}</div>
                         </div>
                     </div>
-                    <div style={styles}>{coin.price_change_percentage_24h.toFixed(1)}%</div>
+                    <div style={styles}>{coin.price_change_percentage_24h.toFixed(2)}%</div>
                     <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
                             margin:'.3rem', 
                             width:'2rem',
