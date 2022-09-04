@@ -369,22 +369,40 @@ const Body = () => {
     const TrendingChanges = ({trending}) => {
         const displayTrending = trending.map(coin => {
             console.log(coin)
+            const id = coin.item.id
+            console.log(id)
+            const trendingCoin = coinList.find(token=>{
+                return(
+                    id === token.id
+                )
+            })
+            console.log(trendingCoin)
             const img = coin.item.small
+            let priceStyle = {
+                color:'green'
+            }
             return (
                 <div style={{
-                    display:'flex',
-                    alignItems:'center',
-                    margin:'.5rem'
+                    display:'grid',
+                    gridTemplateColumns:'1fr 1fr',
+                    alignItems:'center'
                 }} key={coin.item.id}>
-                    <div>{coin.item.score + 1}</div>
-                    <img alt='logo' src={img} style={{width:'1.5rem'}}/>
-                    {coin.item.name}
+                    <div style={{
+                        display:'flex',
+                        alignItems:'center',
+                        margin:'.5rem'
+                    }}>
+                        <div>{coin.item.score + 1}</div>
+                        <img alt='logo' src={img} style={{width:'1.5rem'}}/>
+                        {coin.item.name}
+                    </div>
+                    <div style={priceStyle}>{trendingCoin.price_change_percentage_24h.toLocaleString("en-US")}%</div>
                 </div>
             )
         })
         return (
             <div>
-                <h1>Trending</h1>
+                <h1>Trending on CoinGecko</h1>
                 <div style={{
                     display: 'grid'
                 }}>
