@@ -22,6 +22,7 @@ const Body = () => {
     const [totalDefiMcap, setTotalDefiMcap] = React.useState(0)
     const [totalMcap, setTotalMcap] = React.useState(0)
     const [trending, setTrending] = React.useState([])
+    const [coinToSearch, setCoinToSearch] = React.useState('')
 
     console.log(coinList)
 
@@ -134,10 +135,11 @@ const Body = () => {
         const imgSrc = coin.image
         let gridItems = <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
+            gridTemplateColumns: '1fr .75fr .5fr .5fr .25fr',
             justifyContent: 'center',
             alignItems: 'center',
-            border: 'solid 1px white'
+            border: 'solid 1px white',
+            padding:'.5rem'
         }}>
             <div style={{display:'flex', alignItems:'center'}}>
                 <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
@@ -147,7 +149,7 @@ const Body = () => {
                 </div>
             </div>
             <div>{coin.market_cap.toLocaleString("en-US")}</div>
-            <div>{coin.current_price}</div>
+            <div>{coin.current_price.toLocaleString("en-US")}</div>
             <div style={styles}>{Number(coin.price_change_percentage_24h).toFixed(2)}%</div>
             <img id={coin.id} alt='info'
                 style={{
@@ -164,7 +166,8 @@ const Body = () => {
                 gridTemplateColumns: '1fr .5fr .5fr',
                 justifyContent: 'center',
                 alignItems: 'center',
-                border: 'solid 1px white'
+                border: 'solid 1px white',
+                padding:'.5rem'
             }}>
                 <div style={{display:'flex', alignItems:'center'}}>
                     <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
@@ -189,12 +192,28 @@ const Body = () => {
         )
     })
 
+    
+
     const MarketStats = ({setDisplayMode}) => {
+        const [searchTerm, setSearchTerm] = React.useState('')
+
         const changeDisplay = (event) => {
-            console.log(event.target)
+            console.log(event.target.id)
             setDisplayMode(event.target.id)
         }
         const ethbtc = ethPrice/btcPrice
+
+        const handleSearch = (event) => {
+            event.preventDefault()
+            console.log(searchTerm)
+            setCoinToSearch({searchTerm})
+            changeDisplay(event)
+        }
+
+        const handleInput = (event) => {
+            console.log(event.target.value)
+            setSearchTerm(event.target.value)
+        }
         return (
             <>
                 <h1 style={{
@@ -230,24 +249,34 @@ const Body = () => {
                             <button className='button--view' onClick={(event)=>changeDisplay(event)} id='trend'>Trending</button>
                         </div>
                     </div>
+                    <form>
                     <div style={{
                         display: 'flex',
                         alignItems: 'center'
                     }}>
-                        <input style={{
-                            width: '100%',
-                            color: 'rgb(36, 35, 42)',
-                            fontSize: '16px',
-                            lineHeight: '20px',
-                            minHeight: '28px',
-                            borderRadius: '4px',
-                            padding: '4px 8px',
-                            border: '2px solid transparent',
-                            boxShadow: 'rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px',
-                            background: 'rgb(251, 251, 251)',
-                            transition: 'all 0.1s ease 0s'
-                        }} type={'search'} placeholder={'search coins...'}></input>
+                            <input style={{
+                                width: '100%',
+                                color: 'rgb(36, 35, 42)',
+                                fontSize: '16px',
+                                lineHeight: '20px',
+                                minHeight: '28px',
+                                borderRadius: '4px',
+                                padding: '4px 8px',
+                                border: '2px solid transparent',
+                                boxShadow: 'rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px',
+                                background: 'rgb(251, 251, 251)',
+                                transition: 'all 0.1s ease 0s'
+                            }}
+                                type={'search'}
+                                placeholder={'search coins...'}
+                                aria-label='search coins'
+                                onInput={handleInput}
+                                value={searchTerm}
+                                name='searchTerm'
+                            />
+                            <button className='button--view' id='search' onClick={handleSearch}>Search</button>
                     </div>
+                    </form>
                 </div>
             </>
         )
@@ -279,7 +308,7 @@ const Body = () => {
                 <div style={{marginLeft:'1rem'}}>
                     <h3>market data:</h3>
                     <div style={{display:'flex',alignItems:'center'}}><strong>current price:</strong> <div style={{marginLeft:'.5rem',color: priceStyle.color}}>${price.toLocaleString("en-US")}</div></div>
-                    <div style={{display:'flex',alignItems:'center'}}><strong>24h price change:</strong> <div style={priceStyle}>{priceChange.toFixed(2)}%</div></div>
+                    <div style={{display:'flex',alignItems:'center'}}><strong>24h price change:</strong> <div style={priceStyle}>{Number(priceChange).toFixed(2)}%</div></div>
                 </div>
             </div>
             <div>
@@ -337,7 +366,7 @@ const Body = () => {
     const TopTokens = ({displayArray, getCoinData}) => {
         let columns = <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr'
+            gridTemplateColumns: '1fr .75fr .5fr .5fr .25fr'
         }}>
             <h2>Token</h2>
             <h2>Market Cap</h2>
@@ -364,6 +393,65 @@ const Body = () => {
         )
     }
 
+    const SearchTokens = ({searchTerm,getCoinData}) => {
+        const [searchData, setSearchData] = React.useState({})
+        const [coinResults, setCoinResults] = React.useState([])
+        const coin = searchTerm.searchTerm
+        React.useEffect(()=>{
+            axios
+            .get(`https://api.coingecko.com/api/v3/search?query=${coin}`)
+            .then(response => {
+                console.log(response.data)
+                setSearchData(response.data)
+            })
+            .catch(error=>console.log(`Something went wrong:`, error))
+        },[coin])
+        
+        React.useEffect(()=>{
+            let results = [<li>no data.</li>]
+            if (searchData.coins !== undefined) {
+                results = searchData.coins.map(coin=>{
+                    return(
+                        <li style={{
+                            display:'flex',
+                            alignItems:'center',
+                            margin:'.5rem'
+                        }} key={coin.id}>
+                            <div style={{marginRight:'.5rem'}}>{coin.market_cap_rank}</div>
+                            <img style={{marginRight:'.5rem',width:'1rem'}} src={coin.large} alt='logo'/>
+                            
+                            {coin.name} ({coin.symbol})
+                            <img id={coin.id} alt='info'
+                                style={{
+                                    backgroundColor:'white', borderRadius:'20px',display:'flex',
+                                    border:'1px solid white',marginLeft:'.5rem', width:'1rem'
+                                }}
+                                src={info}
+                                onClick={(event)=>getCoinData(event)}
+                                />
+                        </li>
+                    )
+                })
+                console.log(searchData)
+            }
+            setCoinResults(
+                results
+            )
+        },[searchData, getCoinData])
+
+        return (
+            <div>
+                <h4>You searched:</h4>
+                <div>{coin}</div>
+                <br />
+                <h4>Results:</h4>
+                <ul>
+                    {coinResults}
+                </ul>
+            </div>
+        )
+    }
+
     const TrendingChanges = ({trending}) => {
         const displayTrending = trending.map(coin => {
             console.log(coin)
@@ -383,7 +471,7 @@ const Body = () => {
             return (
                 <div style={{
                     display:'grid',
-                    gridTemplateColumns:'1fr .5fr',
+                    gridTemplateColumns:'1fr .5fr .25fr',
                     alignItems:'center'
                 }} key={coin.item.id}>
                     <div style={{
@@ -396,6 +484,14 @@ const Body = () => {
                         {coin.item.name}
                     </div>
                     <div style={priceStyle}>{trendingCoin.price_change_percentage_24h.toLocaleString("en-US")}%</div>
+                    <img id={trendingCoin.id} alt='info'
+                    style={{
+                        backgroundColor:'white', borderRadius:'20px',display:'flex',
+                        border:'1px solid white'
+                    }}
+                    src={info}
+                    onClick={(event)=>getCoinData(event)}
+                    />
                 </div>
             )
         })
@@ -432,10 +528,11 @@ const Body = () => {
             const imgSrc = coin.image
             let gridItems = <div style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
+                gridTemplateColumns: '1fr .75fr .5fr .5fr .25fr',
                 justifyContent: 'center',
                 alignItems: 'center',
-                border: 'solid 1px white'
+                border: 'solid 1px white',
+                padding:'.5rem'
             }} key={i}>
                 <div style={{display:'flex', alignItems:'center'}}>
                     <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
@@ -445,7 +542,7 @@ const Body = () => {
                     </div>
                 </div>
                 <div>{coin.market_cap.toLocaleString("en-US")}</div>
-                <div>{coin.current_price}</div>
+                <div>{coin.current_price.toLocaleString("en-US")}</div>
                 <div style={styles}>{coin.price_change_percentage_24h.toFixed(2)}%</div>
                 <img id={coin.id} alt='info'
                 style={{
@@ -454,15 +551,16 @@ const Body = () => {
                 }}
                 src={info}
                 onClick={(event)=>getCoinData(event)}
-            />
+                />
             </div>
             if (window.innerWidth < 450) {
                 gridItems = <div style={{
                     display: 'grid',
-                    gridTemplateColumns: '1fr .5fr .5fr',
+                    gridTemplateColumns: '1fr .5fr .25fr',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    border: 'solid 1px white'
+                    border: 'solid 1px white',
+                    padding: '.5rem'
                 }} key={i}>
                     <div style={{display:'flex', alignItems:'center'}}>
                         <div style={{marginLeft:'.5rem',fontWeight:'bold', display: 'flex', alignItems: 'center'}}>{i+1} <img style={{height:'1rem',margin: '0 .5rem 0 .5rem'}} alt='coin logo' src={imgSrc}/></div>
@@ -488,7 +586,7 @@ const Body = () => {
         })
         let columns = <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr 1fr .5fr',
+            gridTemplateColumns: '1fr .75fr .5fr .5fr .25fr',
             fontWeight: 'bolder'
         }}>
             <h2>Token</h2>
@@ -551,6 +649,11 @@ const Body = () => {
         toDisplay = <TrendingChanges 
             trending={trending} 
         />
+    } else if (displayMode === 'search') {
+        toDisplay = <SearchTokens 
+            searchTerm = {coinToSearch}
+            getCoinData = {getCoinData}
+        />
     } else {
         toDisplay = <TopTokens displayArray={displayArray}
             getCoinData={getCoinData}
@@ -568,7 +671,8 @@ const Body = () => {
             <>
                 <MarketStats
                     displayMode={displayMode}
-                    setDisplayMode={setDisplayMode} 
+                    setDisplayMode={setDisplayMode}
+                    setCoinToSearch={setCoinToSearch}
                 />
                 <div style={{
                     border:'1px solid white',
