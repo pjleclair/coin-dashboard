@@ -381,6 +381,7 @@ const Body = () => {
             let priceStyle = {
                 color:'green'
             }
+            if (trendingCoin.price_change_percentage_24h < 0) {priceStyle.color = 'red'}
             return (
                 <div style={{
                     display:'grid',
