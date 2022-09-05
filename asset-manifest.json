@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/coin-dashboard/static/css/main.c21ff5f6.css",
-    "main.js": "/coin-dashboard/static/js/main.564ba927.js",
+    "main.js": "/coin-dashboard/static/js/main.376acbca.js",
     "static/media/link.svg": "/coin-dashboard/static/media/link.0d145514878780e2a08ef1198810776b.svg",
     "index.html": "/coin-dashboard/index.html",
     "static/media/twitter.svg": "/coin-dashboard/static/media/twitter.fa3779b1b7e99d8f0736b7bcce820cac.svg",
     "static/media/info.svg": "/coin-dashboard/static/media/info.ffe0cce397cdb9a3be5d7b96b788a8b7.svg",
     "main.c21ff5f6.css.map": "/coin-dashboard/static/css/main.c21ff5f6.css.map",
-    "main.564ba927.js.map": "/coin-dashboard/static/js/main.564ba927.js.map"
+    "main.376acbca.js.map": "/coin-dashboard/static/js/main.376acbca.js.map"
   },
   "entrypoints": [
     "static/css/main.c21ff5f6.css",
-    "static/js/main.564ba927.js"
+    "static/js/main.376acbca.js"
   ]
 }
