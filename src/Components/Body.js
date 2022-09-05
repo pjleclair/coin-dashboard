@@ -149,21 +149,14 @@ const Body = () => {
             <div>{coin.market_cap.toLocaleString("en-US")}</div>
             <div>{coin.current_price}</div>
             <div style={styles}>{Number(coin.price_change_percentage_24h).toFixed(2)}%</div>
-            <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
-                    margin:'.3rem',
-                    width:'2rem', 
-                    display: 'inline-block',
-                    outline: '0',
-                    border: '0',
-                    cursor: 'pointer',
-                    backgroundColor: 'lightblue',
-                    borderRadius: '20px',
-                    padding: '2px 4px',
-                    fontSize: '16px',
-                    fontWeight: '700',
-                    color: 'white',
-                    lineHeight: '26px'
-                }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px',display:'flex'}} src={info} /></button>
+            <img id={coin.id} alt='info'
+                style={{
+                    backgroundColor:'white', borderRadius:'20px',display:'flex',
+                    border:'1px solid white'
+                }}
+                src={info}
+                onClick={(event)=>getCoinData(event)}
+            />
         </div>
         if (window.innerWidth < 450) {
             gridItems = <div style={{
@@ -181,21 +174,14 @@ const Body = () => {
                     </div>
                 </div>
                 <div style={styles}>{Number(coin.price_change_percentage_24h).toFixed(2)}%</div>
-                <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
-                        margin:'.3rem',
-                        width:'2rem', 
-                        display: 'inline-block',
-                        outline: '0',
-                        border: '0',
-                        cursor: 'pointer',
-                        backgroundColor: 'lightblue',
-                        borderRadius: '20px',
-                        padding: '2px 4px',
-                        fontSize: '16px',
-                        fontWeight: '700',
-                        color: 'white',
-                        lineHeight: '26px'
-                    }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px',display:'flex'}} src={info} /></button>
+                <img id={coin.id} alt='info'
+                style={{
+                    backgroundColor:'white', borderRadius:'20px',display:'flex',
+                    border:'1px solid white'
+                }}
+                src={info}
+                onClick={(event)=>getCoinData(event)}
+            />
             </div>
         }
         return(
@@ -237,18 +223,30 @@ const Body = () => {
                     marginTop: '1rem'
                 }}>
                     <div>
-                        <div>Change View:</div>
+                        <h2>Change View:</h2>
                         <div style={{marginBottom:'1rem'}}>
-                            <button onClick={(event)=>changeDisplay(event)} id='vol'>Volatility</button>
-                            <button onClick={(event)=>changeDisplay(event)} id='mcap'>Market Cap</button>
-                            <button onClick={(event)=>changeDisplay(event)} id='trend'>Trending</button>
+                            <button className='button--view' onClick={(event)=>changeDisplay(event)} id='vol'>Volatility</button>
+                            <button className='button--view' onClick={(event)=>changeDisplay(event)} id='mcap'>Market Cap</button>
+                            <button className='button--view' onClick={(event)=>changeDisplay(event)} id='trend'>Trending</button>
                         </div>
                     </div>
                     <div style={{
                         display: 'flex',
                         alignItems: 'center'
                     }}>
-                        <input type={'search'} placeholder={'search coins...'}></input>
+                        <input style={{
+                            width: '100%',
+                            color: 'rgb(36, 35, 42)',
+                            fontSize: '16px',
+                            lineHeight: '20px',
+                            minHeight: '28px',
+                            borderRadius: '4px',
+                            padding: '4px 8px',
+                            border: '2px solid transparent',
+                            boxShadow: 'rgb(0 0 0 / 12%) 0px 1px 3px, rgb(0 0 0 / 24%) 0px 1px 2px',
+                            background: 'rgb(251, 251, 251)',
+                            transition: 'all 0.1s ease 0s'
+                        }} type={'search'} placeholder={'search coins...'}></input>
                     </div>
                 </div>
             </>
@@ -270,7 +268,7 @@ const Body = () => {
         let priceStyle = {color:'green',marginLeft:'.5rem'}
         if (priceChange < 0) {priceStyle = {color:'red', marginLeft:'.5rem'}}
         let fdv = marketData.fully_diluted_valuation.usd
-        let fdvStyle = {marginLeft:'.5rem'}
+        let fdvStyle = {color:'lightblue', marginLeft:'.5rem'}
         if (fdv === undefined) {
             fdv = 'no data available'
             fdvStyle={color:'grey',marginLeft:'.5rem'}
@@ -280,15 +278,15 @@ const Body = () => {
             <div>
                 <div style={{marginLeft:'1rem'}}>
                     <h3>market data:</h3>
-                    <div style={{display:'flex',alignItems:'center'}}>current price: <div style={{marginLeft:'.5rem'}}>${price.toLocaleString("en-US")}</div></div>
-                    <div style={{display:'flex',alignItems:'center'}}>24h price change: <div style={priceStyle}>{priceChange.toFixed(2)}%</div></div>
+                    <div style={{display:'flex',alignItems:'center'}}><strong>current price:</strong> <div style={{marginLeft:'.5rem',color: priceStyle.color}}>${price.toLocaleString("en-US")}</div></div>
+                    <div style={{display:'flex',alignItems:'center'}}><strong>24h price change:</strong> <div style={priceStyle}>{priceChange.toFixed(2)}%</div></div>
                 </div>
             </div>
             <div>
                 <div>
                     <h3>market cap rank: {coin.market_cap_rank}</h3>
-                    <div>market cap: {marketData.market_cap.usd.toLocaleString("en-US")}</div>
-                    <div style={{display:'flex',alignItems:'center'}}>fully diluted value: <div style={fdvStyle}>{fdv.toLocaleString("en-US")}</div></div>    
+                    <div style={{color:'lightblue'}}><strong>market cap:</strong> {marketData.market_cap.usd.toLocaleString("en-US")}</div>
+                    <div style={{display:'flex',alignItems:'center'}}><strong>fully diluted value:</strong> <div style={fdvStyle}>{fdv.toLocaleString("en-US")}</div></div>    
                 </div>
             </div>
         </div>
@@ -298,11 +296,11 @@ const Body = () => {
                 <h3>market cap rank: {coin.market_cap_rank}</h3>
                 <h3>market data:</h3>
                 <div style={{marginLeft:'1rem'}}>
-                    <div>market cap: {marketData.market_cap.usd.toLocaleString("en-US")}</div>
-                    <div style={{display:'flex',alignItems:'center'}}>fully diluted value: <div style={fdvStyle}>{fdv.toLocaleString("en-US")}</div></div>
+                    <div style={{color:'lightblue'}}><strong>market cap:</strong> {marketData.market_cap.usd.toLocaleString("en-US")}</div>
+                    <div style={{display:'flex',alignItems:'center'}}><strong>fully diluted value:</strong> <div style={fdvStyle}>{fdv.toLocaleString("en-US")}</div></div>
                     <br />
-                    <div style={{display:'flex',alignItems:'center'}}>current price: <div style={{marginLeft:'.5rem'}}>${price.toLocaleString("en-US")}</div></div>
-                    <div style={{display:'flex',alignItems:'center'}}>24h price change: <div style={priceStyle}>{priceChange.toFixed(2)}%</div></div>
+                    <div style={{display:'flex',alignItems:'center'}}><strong>current price:</strong> <div style={{color:priceStyle.color, marginLeft:'.5rem'}}>${price.toLocaleString("en-US")}</div></div>
+                    <div style={{display:'flex',alignItems:'center'}}><strong>24h price change:</strong> <div style={priceStyle}>{priceChange.toFixed(2)}%</div></div>
                 </div>
             </div>
             categoryStyle = {marginLeft:''}
@@ -385,7 +383,7 @@ const Body = () => {
             return (
                 <div style={{
                     display:'grid',
-                    gridTemplateColumns:'1fr 1fr',
+                    gridTemplateColumns:'1fr .5fr',
                     alignItems:'center'
                 }} key={coin.item.id}>
                     <div style={{
@@ -393,7 +391,7 @@ const Body = () => {
                         alignItems:'center',
                         margin:'.5rem'
                     }}>
-                        <div>{coin.item.score + 1}</div>
+                        <div style={{marginRight:'.5rem'}}>{coin.item.score + 1}</div>
                         <img alt='logo' src={img} style={{width:'1.5rem'}}/>
                         {coin.item.name}
                     </div>
@@ -449,21 +447,14 @@ const Body = () => {
                 <div>{coin.market_cap.toLocaleString("en-US")}</div>
                 <div>{coin.current_price}</div>
                 <div style={styles}>{coin.price_change_percentage_24h.toFixed(2)}%</div>
-                <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
-                        margin:'.3rem', 
-                        width:'2rem',
-                        display: 'inline-block',
-                        outline: '0',
-                        border: '0',
-                        cursor: 'pointer',
-                        backgroundColor: 'lightblue',
-                        borderRadius: '20px',
-                        padding: '2px 4px',
-                        fontSize: '16px',
-                        fontWeight: '700',
-                        color: 'white',
-                        lineHeight: '26px'
-                    }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px',display:'flex'}} src={info} /></button>
+                <img id={coin.id} alt='info'
+                style={{
+                    backgroundColor:'white', borderRadius:'20px',display:'flex',
+                    border:'1px solid white'
+                }}
+                src={info}
+                onClick={(event)=>getCoinData(event)}
+            />
             </div>
             if (window.innerWidth < 450) {
                 gridItems = <div style={{
@@ -481,21 +472,14 @@ const Body = () => {
                         </div>
                     </div>
                     <div style={styles}>{coin.price_change_percentage_24h.toFixed(2)}%</div>
-                    <button id={coin.id} onClick={(event)=>getCoinData(event)} style={{
-                            margin:'.3rem', 
-                            width:'2rem',
-                            display: 'inline-block',
-                            outline: '0',
-                            border: '0',
-                            cursor: 'pointer',
-                            backgroundColor: 'lightblue',
-                            borderRadius: '20px',
-                            padding: '2px 4px',
-                            fontSize: '16px',
-                            fontWeight: '700',
-                            color: 'white',
-                            lineHeight: '26px'
-                        }}><img id={coin.id} alt='info' style={{backgroundColor:'white', borderRadius:'20px',display:'flex'}} src={info} /></button>
+                    <img id={coin.id} alt='info'
+                    style={{
+                        backgroundColor:'white', borderRadius:'20px',display:'flex',
+                        border:'1px solid white'
+                    }}
+                    src={info}
+                    onClick={(event)=>getCoinData(event)}
+            />
                 </div>
             }
             return(
@@ -535,7 +519,7 @@ const Body = () => {
                     marginRight:'1rem', 
                     display: 'inline-block',
                     outline: '0',
-                    border: '0',
+                    border: '2px solid white',
                     cursor: 'pointer',
                     backgroundColor: 'lightblue',
                     borderRadius: '50px',

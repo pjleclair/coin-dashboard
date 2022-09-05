@@ -8,3 +8,18 @@ body  {
     color: #FFFFFF;
     background-color: #111827;
 }
+
+.button--view {
+        margin: .3rem;
+        display: inline-block;
+        outline: 0;
+        border: 2px solid white;
+        cursor: pointer;
+        background-color: lightblue;
+        border-radius: 20px;
+        padding: 4px 8px;
+        font-size: 16px;
+        font-weight: 700;
+        color: white;
+        line-height: 26px;
+}
