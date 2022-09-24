@@ -4,7 +4,7 @@ import info from '../info.svg'
 import link from '../link.svg'
 import twitter from '../twitter.svg'
 
-const Body = () => {
+const Body = ({showSideBar, setShowSideBar}) => {
 
     const [coinList, setCoinList] = React.useState([])
     const [coinDataOne, setCoinDataOne] = React.useState([])
@@ -194,13 +194,8 @@ const Body = () => {
 
     
 
-    const MarketStats = ({setDisplayMode}) => {
+    const MarketStats = () => {
         const [searchTerm, setSearchTerm] = React.useState('')
-
-        const changeDisplay = (event) => {
-            console.log(event.target.id)
-            setDisplayMode(event.target.id)
-        }
         const ethbtc = ethPrice/btcPrice
 
         const handleSearch = (event) => {
@@ -237,18 +232,10 @@ const Body = () => {
                 </div>
                 <div style={{
                     display: 'flex',
-                    justifyContent: 'space-between',
+                    justifyContent: 'center',
                     alignItems: 'center',
                     marginTop: '1rem'
                 }}>
-                    <div>
-                        <h2>Change View:</h2>
-                        <div style={{marginBottom:'1rem'}}>
-                            <button className='button--view' onClick={(event)=>changeDisplay(event)} id='vol'>Volatility</button>
-                            <button className='button--view' onClick={(event)=>changeDisplay(event)} id='mcap'>Market Cap</button>
-                            <button className='button--view' onClick={(event)=>changeDisplay(event)} id='trend'>Trending</button>
-                        </div>
-                    </div>
                     <form>
                     <div style={{
                         display: 'flex',
@@ -416,7 +403,7 @@ const Body = () => {
                             display:'flex',
                             alignItems:'center',
                             margin:'.5rem'
-                        }} key={coin.id}>
+                        }} key={coin.name}>
                             <div style={{marginRight:'.5rem'}}>{coin.market_cap_rank}</div>
                             <img style={{marginRight:'.5rem',width:'1rem'}} src={coin.large} alt='logo'/>
                             
@@ -438,7 +425,6 @@ const Body = () => {
                 results
             )
         },[searchData, getCoinData])
-
         return (
             <div>
                 <h4>You searched:</h4>
@@ -659,6 +645,36 @@ const Body = () => {
             getCoinData={getCoinData}
         />
     }
+
+    const changeDisplay = (event) => {
+        console.log(event.target.id)
+        setDisplayMode(event.target.id)
+        if (event.target.id !== 'search') {
+            setShowSideBar(!showSideBar)
+        }
+    }
+
+    let sideBarStyle
+    const sideBarContent = 
+    <div style={{
+        padding: '1rem'
+    }}>
+        <h2>Change View:</h2>
+        <div style={{
+            marginBottom:'1rem',
+            display: 'grid'
+        }}>
+            <button className='button--view' onClick={changeDisplay} id='vol'>Volatility</button>
+            <button className='button--view' onClick={changeDisplay} id='mcap'>Market Cap</button>
+            <button className='button--view' onClick={changeDisplay} id='trend'>Trending</button>
+        </div>
+    </div>
+    if (showSideBar === true) {
+        sideBarStyle = 'sidebar-open'
+    }
+    else {
+        sideBarStyle = 'sidebar'
+    }
     return (
         <div style={{
             padding: '1rem'
@@ -669,9 +685,13 @@ const Body = () => {
                 getCoinData={getCoinData}
             /> :
             <>
+                {/* render sidebar: */}
+                <div className={sideBarStyle}>
+                    {sideBarContent}
+                </div>
+
                 <MarketStats
                     displayMode={displayMode}
-                    setDisplayMode={setDisplayMode}
                     setCoinToSearch={setCoinToSearch}
                 />
                 <div style={{
