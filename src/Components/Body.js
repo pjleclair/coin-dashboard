@@ -216,7 +216,7 @@ const Body = () => {
         }
         return (
             <>
-                <h1 style={{
+                <h1 className='market-stats' style={{
                     display: 'flex',
                     justifyContent:'center'
                 }}>Market Stats</h1>

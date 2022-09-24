@@ -32,3 +32,17 @@ body  {
     transform: rotate(450deg);
     transition: transform 2s ease-in-out .5s;
 }
+
+.market-stats {
+    background-image: url('./bg.jpg');
+    background-clip: text;
+    background-repeat: repeat-x;
+    background-size: 50% 100%;
+    color: transparent;
+    animation: scroll 30s infinite linear;
+}
+
+@keyframes scroll {
+    from {background-position-x: 0;}
+    to {background-position-x: -100%;}
+}
