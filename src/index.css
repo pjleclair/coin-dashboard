@@ -23,3 +23,12 @@ body  {
         color: white;
         line-height: 26px;
 }
+
+.sidebar-button {
+    transition: transform 2s ease-in-out .5s;
+}
+
+.sidebar-button-clicked {
+    transform: rotate(450deg);
+    transition: transform 2s ease-in-out .5s;
+}
