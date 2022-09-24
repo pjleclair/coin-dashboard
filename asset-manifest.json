@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/coin-dashboard/static/css/main.4bac8ce6.css",
-    "main.js": "/coin-dashboard/static/js/main.5559cdd3.js",
+    "main.css": "/coin-dashboard/static/css/main.618450f0.css",
+    "main.js": "/coin-dashboard/static/js/main.8a245572.js",
     "static/media/link.svg": "/coin-dashboard/static/media/link.0d145514878780e2a08ef1198810776b.svg",
     "index.html": "/coin-dashboard/index.html",
     "static/media/twitter.svg": "/coin-dashboard/static/media/twitter.fa3779b1b7e99d8f0736b7bcce820cac.svg",
     "static/media/info.svg": "/coin-dashboard/static/media/info.ffe0cce397cdb9a3be5d7b96b788a8b7.svg",
-    "main.4bac8ce6.css.map": "/coin-dashboard/static/css/main.4bac8ce6.css.map",
-    "main.5559cdd3.js.map": "/coin-dashboard/static/js/main.5559cdd3.js.map"
+    "main.618450f0.css.map": "/coin-dashboard/static/css/main.618450f0.css.map",
+    "main.8a245572.js.map": "/coin-dashboard/static/js/main.8a245572.js.map"
   },
   "entrypoints": [
-    "static/css/main.4bac8ce6.css",
-    "static/js/main.5559cdd3.js"
+    "static/css/main.618450f0.css",
+    "static/js/main.8a245572.js"
   ]
 }
