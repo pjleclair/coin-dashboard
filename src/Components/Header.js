@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Header = ({showSideBar, setShowSideBar}) => {
+const Header = ({showSideBar, setShowSideBar, setRotateSBButton, rotateSBButton}) => {
     const styles = {
         color:'lightblue',
         border:'solid white 1px',
@@ -14,19 +14,26 @@ const Header = ({showSideBar, setShowSideBar}) => {
     }
 
     const handleClick = (e) => {
-        const target = document.getElementById('sidebar')
-        if (target.className === 'sidebar-button') {
-            target.className = 'sidebar-button-clicked'
+        if (rotateSBButton === false) {
+            sbButtonStyle = 'sidebar-button-clicked'
             setShowSideBar(true)
+            setRotateSBButton(true)
         } else {
-            target.className = 'sidebar-button'
+            sbButtonStyle = 'sidebar-button'
             setShowSideBar(false)
+            setRotateSBButton(false)
         }
+    }
+    let sbButtonStyle
+    if (rotateSBButton === false) {
+        sbButtonStyle = 'sidebar-button'
+    } else {
+        sbButtonStyle = 'sidebar-button-clicked'
     }
 
     return (
         <nav style={styles}>
-            <div id='sidebar' className='sidebar-button' onClick={handleClick}
+            <div id='sidebar' className={sbButtonStyle} onClick={handleClick}
             style={{
                 display: 'flex', flexDirection: 'column', gap: '.5rem',
                 marginLeft: '.5rem'
@@ -35,7 +42,8 @@ const Header = ({showSideBar, setShowSideBar}) => {
                 <div style={{backgroundColor:'white', width: '2rem', height: '.25rem'}}></div>
                 <div style={{backgroundColor:'white', width: '2rem', height: '.25rem'}}></div>
             </div>
-            <h1 style={{marginLeft:'auto', color:'lightblue'}}>Coin Dashboard</h1>
+            <h1 style={{marginLeft:'auto', color:'lightblue',
+            marginRight: '.5rem'}}>Coin Dashboard</h1>
         </nav>
     )
 }

@@ -4,7 +4,7 @@ import info from '../info.svg'
 import link from '../link.svg'
 import twitter from '../twitter.svg'
 
-const Body = ({showSideBar, setShowSideBar}) => {
+const Body = ({showSideBar, setShowSideBar, setRotateSBButton}) => {
 
     const [coinList, setCoinList] = React.useState([])
     const [coinDataOne, setCoinDataOne] = React.useState([])
@@ -94,6 +94,7 @@ const Body = ({showSideBar, setShowSideBar}) => {
             setSelectedCoin(event.target.id)
         }
         setShowCoinData(prevState => !prevState)
+        setDisplayMode('coin')
     }
 
     React.useEffect (()=>{
@@ -652,6 +653,8 @@ const Body = ({showSideBar, setShowSideBar}) => {
         if (event.target.id !== 'search') {
             setShowSideBar(!showSideBar)
         }
+        setRotateSBButton(false)
+        setShowCoinData(false)
     }
 
     let sideBarStyle
@@ -680,10 +683,16 @@ const Body = ({showSideBar, setShowSideBar}) => {
             padding: '1rem'
         }}>
             {showCoinData === true ? 
-            <CoinData 
-                coin={selectedCoinInfo}
-                getCoinData={getCoinData}
-            /> :
+            <>
+                {/* render sidebar: */}
+                <div className={sideBarStyle}>
+                        {sideBarContent}
+                </div>
+                    <CoinData 
+                    coin={selectedCoinInfo}
+                    getCoinData={getCoinData}
+                />
+            </> :
             <>
                 {/* render sidebar: */}
                 <div className={sideBarStyle}>

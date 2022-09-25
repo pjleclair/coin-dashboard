@@ -25,7 +25,7 @@ body  {
 }
 
 .sidebar {
-    position: absolute;
+    position: fixed;
     border: 1px solid white;
     width: 15rem;
     height: 30rem;
@@ -35,7 +35,7 @@ body  {
 }
 
 .sidebar-open {
-    position: absolute;
+    position: fixed;
     border: 1px solid white;
     width: 15rem;
     height: 30rem;
