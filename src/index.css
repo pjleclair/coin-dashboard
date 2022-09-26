@@ -28,17 +28,14 @@ body  {
     position: fixed;
     border: 1px solid white;
     width: 15rem;
-    height: 30rem;
     transition: transform 1s ease-in-out .1s;
     transform: translateX(-1000px);
-    z-index: 2;
 }
 
 .sidebar-open {
     position: fixed;
     border: 1px solid white;
     width: 15rem;
-    height: 30rem;
     transition: transform 1s ease-in-out .1s;
     transform: translateX(0px);
 }
@@ -59,7 +56,6 @@ body  {
     background-size: 50% 100%;
     color: transparent;
     animation: scroll 30s infinite linear;
-    z-index: 1;
 }
 
 @keyframes scroll {
