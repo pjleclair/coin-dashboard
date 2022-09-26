@@ -27,7 +27,7 @@ body  {
 .sidebar {
     position: fixed;
     border: 1px solid white;
-    width: 15rem;
+    
     transition: transform 1s ease-in-out .1s;
     transform: translateX(-1000px);
 }
@@ -35,7 +35,7 @@ body  {
 .sidebar-open {
     position: fixed;
     border: 1px solid white;
-    width: 15rem;
+
     transition: transform 1s ease-in-out .1s;
     transform: translateX(0px);
 }
