@@ -26,27 +26,27 @@ body  {
 
 .sidebar {
     position: fixed;
-    border: 1px solid white;
-    
-    transition: transform 1s ease-in-out .1s;
+    border: 2px solid white;
+    border-radius: 0 5px 5px 0;
+    transition: transform .5s ease-in-out;
     transform: translateX(-1000px);
 }
 
 .sidebar-open {
     position: fixed;
-    border: 1px solid white;
-
-    transition: transform 1s ease-in-out .1s;
+    border: 2px solid white;
+    border-radius: 0 5px 5px 0;
+    transition: transform .5s ease-in-out;
     transform: translateX(0px);
 }
 
 .sidebar-button {
-    transition: transform 1s ease-in-out .1s;
+    transition: transform .5s ease-in-out;
 }
 
 .sidebar-button-clicked {
     transform: rotate(450deg);
-    transition: transform 1s ease-in-out .1s;
+    transition: transform .5s ease-in-out;
 }
 
 .market-stats {

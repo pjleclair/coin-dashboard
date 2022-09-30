@@ -4,7 +4,7 @@ import info from '../info.svg'
 import link from '../link.svg'
 import twitter from '../twitter.svg'
 
-const Body = ({showSideBar, setShowSideBar, setRotateSBButton}) => {
+const Body = ({showCoinData, setShowCoinData, displayMode, setDisplayMode, changeDisplay}) => {
 
     const [coinList, setCoinList] = React.useState([])
     const [coinDataOne, setCoinDataOne] = React.useState([])
@@ -12,10 +12,8 @@ const Body = ({showSideBar, setShowSideBar, setRotateSBButton}) => {
     const [coinDataThree, setCoinDataThree] = React.useState([])
     const [coinDataFour, setCoinDataFour] = React.useState([])
     const [showSlider, setShowSlider] = React.useState(false)
-    const [showCoinData, setShowCoinData] = React.useState(false)
     const [selectedCoin, setSelectedCoin] = React.useState('ethereum')
     const [selectedCoinInfo, setSelectedCoinInfo] = React.useState({})
-    const [displayMode, setDisplayMode] = React.useState('vol')
     const [ethPrice, setEthPrice] = React.useState(0)
     const [btcPrice, setBtcPrice] = React.useState(0)
     const [globalInfo, setGlobalInfo] = React.useState()
@@ -645,60 +643,20 @@ const Body = ({showSideBar, setShowSideBar, setRotateSBButton}) => {
         toDisplay = <TopTokens displayArray={displayArray}
             getCoinData={getCoinData}
         />
-    }
-
-    const changeDisplay = (event) => {
-        console.log(event.target.id)
-        setDisplayMode(event.target.id)
-        if (event.target.id !== 'search') {
-            setShowSideBar(!showSideBar)
-        }
-        setRotateSBButton(false)
-        setShowCoinData(false)
-    }
-
-    let sideBarStyle
-    const sideBarContent = 
-    <div style={{
-        padding: '1rem'
-    }}>
-        <h2>Change View:</h2>
-        <div style={{
-            marginBottom:'1rem',
-            display: 'grid'
-        }}>
-            <button className='button--view' onClick={changeDisplay} id='vol'>Volatility</button>
-            <button className='button--view' onClick={changeDisplay} id='mcap'>Market Cap</button>
-            <button className='button--view' onClick={changeDisplay} id='trend'>Trending</button>
-        </div>
-    </div>
-    if (showSideBar === true) {
-        sideBarStyle = 'sidebar-open'
-    }
-    else {
-        sideBarStyle = 'sidebar'
-    }
+    }    
+    
     return (
         <div style={{
             padding: '1rem'
         }}>
             {showCoinData === true ? 
             <>
-                {/* render sidebar: */}
-                <div className={sideBarStyle}>
-                        {sideBarContent}
-                </div>
-                    <CoinData 
+                <CoinData 
                     coin={selectedCoinInfo}
                     getCoinData={getCoinData}
                 />
             </> :
             <>
-                {/* render sidebar: */}
-                <div className={sideBarStyle}>
-                    {sideBarContent}
-                </div>
-
                 <MarketStats
                     displayMode={displayMode}
                     setCoinToSearch={setCoinToSearch}
