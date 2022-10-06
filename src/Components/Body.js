@@ -625,6 +625,7 @@ const Body = ({showCoinData, setShowCoinData, displayMode, setDisplayMode, chang
         </div>
         )
     }
+
     let toDisplay
     if (displayMode === 'vol') {
         toDisplay = <TopChanges
