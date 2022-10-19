@@ -276,8 +276,10 @@ const TrendingChanges = ({trending,coinList,getCoinData}) => {
                     margin:'.5rem'
                 }}>
                     <div style={{marginRight:'.5rem'}}>{coin.item.score + 1}</div>
-                    <img alt='logo' src={img} style={{width:'1.5rem'}}/>
+                    <img alt='logo' src={img} style={{width:'1.5rem',marginRight: '.5rem'}}/>
                     {coin.item.name}
+
+                    <div style={{marginLeft:'.5rem'}}>({coin.item.symbol})</div>
                 </div>
                 <div style={priceStyle}>{trendingCoin.price_change_percentage_24h.toLocaleString("en-US")}%</div>
                 <img id={trendingCoin.id} alt='info'
