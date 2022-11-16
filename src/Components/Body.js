@@ -564,6 +564,8 @@ const Body = ({showCoinData, setShowCoinData, displayMode, setDisplayMode, chang
 
     const displayArray = coinList.map((coin,i) => {
         const changeVal = coin.price_change_percentage_24h
+        //const coinMcap = coin.market_cap.toLocaleString("en-US")
+        //const coinPrice = coin.current_price.toLocaleString("en-US")
         let styles = {color:'green'}
         if (changeVal < 0) {styles={color:'red'}}
         const imgSrc = coin.image
@@ -582,8 +584,8 @@ const Body = ({showCoinData, setShowCoinData, displayMode, setDisplayMode, chang
                     <div>{coin.symbol}</div>
                 </div>
             </div>
-            <div>{coin.market_cap.toLocaleString("en-US")}</div>
-            <div>{coin.current_price.toLocaleString("en-US")}</div>
+            <div>{coin.market_cap}</div>
+            <div>{coin.current_price}</div>
             <div style={styles}>{Number(coin.price_change_percentage_24h).toFixed(2)}%</div>
             <img id={coin.id} alt='info'
                 style={{
